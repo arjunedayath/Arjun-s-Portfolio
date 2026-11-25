@@ -1219,9 +1219,17 @@ function renderProfile(){
   if ($('#mailBtn') && p.email) $('#mailBtn').href = `mailto:${p.email}`;
   if ($('#mailLink') && p.email) $('#mailLink').href = `mailto:${p.email}`;
   if ($('#socLinkedin') && p.linkedin) $('#socLinkedin').href = p.linkedin;
-  if ($('#contactLinkedin') && p.linkedin) $('#contactLinkedin').href = p.linkedin;
+  if ($('#contactLinkedin') && p.linkedin) {
+    $('#contactLinkedin').href = p.linkedin;
+    const span = $('#contactLinkedin span');
+    if (span) span.textContent = p.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  }
   if ($('#socInsta') && p.instagram) $('#socInsta').href = p.instagram;
-  if ($('#contactInsta') && p.instagram) $('#contactInsta').href = p.instagram;
+  if ($('#contactInsta') && p.instagram) {
+    $('#contactInsta').href = p.instagram;
+    const span = $('#contactInsta span');
+    if (span) span.textContent = p.instagram.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  }
   if ($('#avatarImg') && p.avatar) {
     $('#avatarImg').src = p.avatar;
   }
