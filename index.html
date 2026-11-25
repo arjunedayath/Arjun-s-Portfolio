@@ -934,13 +934,13 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
         <i>✉</i>
         <div><b>Email Address</b><span id="contactMail">arjunaju05@gmail.com</span></div>
       </a>
-      <a class="cl" href="https://linkedin.com/in/arjun-aju" target="_blank" rel="noopener" id="contactLinkedin">
+      <a class="cl" href="https://linkedin.com/in/arjun-aju" target="_blank" rel="noopener" id="contactLinkedin" title="Open LinkedIn Profile">
         <i>in</i>
-        <div><b>LinkedIn Profile</b><span>linkedin.com/in/arjun-aju</span></div>
+        <div><b>LinkedIn</b></div>
       </a>
-      <a class="cl" href="https://instagram.com/arjun_aju" target="_blank" rel="noopener" id="contactInsta">
+      <a class="cl" href="https://instagram.com/arjun_aju" target="_blank" rel="noopener" id="contactInsta" title="Open Instagram Profile">
         <i>◎</i>
-        <div><b>Instagram Handle</b><span>instagram.com/arjun_aju</span></div>
+        <div><b>Instagram</b></div>
       </a>
     </div>
   </div>
@@ -1244,17 +1244,9 @@ function renderProfile(){
   if ($('#mailBtn') && p.email) $('#mailBtn').href = `mailto:${p.email}`;
   if ($('#mailLink') && p.email) $('#mailLink').href = `mailto:${p.email}`;
   if ($('#socLinkedin') && p.linkedin) $('#socLinkedin').href = p.linkedin;
-  if ($('#contactLinkedin') && p.linkedin) {
-    $('#contactLinkedin').href = p.linkedin;
-    const span = $('#contactLinkedin span');
-    if (span) span.textContent = p.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-  }
+  if ($('#contactLinkedin') && p.linkedin) $('#contactLinkedin').href = p.linkedin;
   if ($('#socInsta') && p.instagram) $('#socInsta').href = p.instagram;
-  if ($('#contactInsta') && p.instagram) {
-    $('#contactInsta').href = p.instagram;
-    const span = $('#contactInsta span');
-    if (span) span.textContent = p.instagram.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-  }
+  if ($('#contactInsta') && p.instagram) $('#contactInsta').href = p.instagram;
   if ($('#avatarImg') && p.avatar) {
     $('#avatarImg').src = p.avatar;
   }
