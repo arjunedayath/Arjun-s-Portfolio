@@ -1,17 +1,3 @@
-function syncProfileInputsToData() {
-  if (!appData.profile) appData.profile = {};
-  if ($('#profName') && $('#profName').value) appData.profile.name = $('#profName').value.trim();
-  if ($('#profHeadline') && $('#profHeadline').value) appData.profile.headline = $('#profHeadline').value.trim();
-  if ($('#profBio') && $('#profBio').value) appData.profile.bio = $('#profBio').value.trim();
-  if ($('#profAbout') && $('#profAbout').value) appData.profile.about = $('#profAbout').value.trim();
-  if ($('#profFocus') && $('#profFocus').value) appData.profile.focus = $('#profFocus').value.trim();
-  if ($('#profLocation') && $('#profLocation').value) appData.profile.location = $('#profLocation').value.trim();
-  if ($('#profEmail') && $('#profEmail').value) appData.profile.email = $('#profEmail').value.trim();
-  if ($('#profLinkedin') && $('#profLinkedin').value) appData.profile.linkedin = $('#profLinkedin').value.trim();
-  if ($('#profInsta') && $('#profInsta').value) appData.profile.instagram = $('#profInsta').value.trim();
-  if ($('#profRoles') && $('#profRoles').value) appData.profile.roles = $('#profRoles').value.split(',').map(s=>s.trim()).filter(Boolean);
-}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -987,6 +973,20 @@ async function loadCloudDataForAdmin() {
   } catch (e) {
     showToast('Migration failed: ' + (e.message || e));
   }
+}
+
+function syncProfileInputsToData() {
+  if (!appData.profile) appData.profile = {};
+  if ($('#profName') && $('#profName').value) appData.profile.name = $('#profName').value.trim();
+  if ($('#profHeadline') && $('#profHeadline').value) appData.profile.headline = $('#profHeadline').value.trim();
+  if ($('#profBio') && $('#profBio').value) appData.profile.bio = $('#profBio').value.trim();
+  if ($('#profAbout') && $('#profAbout').value) appData.profile.about = $('#profAbout').value.trim();
+  if ($('#profFocus') && $('#profFocus').value) appData.profile.focus = $('#profFocus').value.trim();
+  if ($('#profLocation') && $('#profLocation').value) appData.profile.location = $('#profLocation').value.trim();
+  if ($('#profEmail') && $('#profEmail').value) appData.profile.email = $('#profEmail').value.trim();
+  if ($('#profLinkedin') && $('#profLinkedin').value) appData.profile.linkedin = $('#profLinkedin').value.trim();
+  if ($('#profInsta') && $('#profInsta').value) appData.profile.instagram = $('#profInsta').value.trim();
+  if ($('#profRoles') && $('#profRoles').value) appData.profile.roles = $('#profRoles').value.split(',').map(s=>s.trim()).filter(Boolean);
 }
 
 async function saveData(silent=false){
