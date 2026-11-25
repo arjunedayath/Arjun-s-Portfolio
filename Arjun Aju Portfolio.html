@@ -2147,6 +2147,31 @@ if ($('#copyResumeTextBtn')) {
     });
   };
 }
+
+/* Copy email on click */
+if ($('#contactMail')) {
+  $('#contactMail').addEventListener('click', e => {
+    try {
+      navigator.clipboard.writeText(appData.profile?.email || 'arjunaju05@gmail.com');
+      toast('Email address copied to clipboard!');
+    } catch(err){}
+  });
+}
+
+/* ========================================================
+   INITIAL RENDER CALL
+   ======================================================== */
+function renderAll(){
+  renderProfile();
+  renderProjects();
+  renderCertificatesAlbum();
+  renderQualifications();
+  renderSkills();
+  observeReveals();
+}
+renderAll(); // Fast local/default first paint.
+loadPortfolioFromSupabase(false); // Then load the authoritative cloud record.
+
 </script>
 </body>
 </html>
