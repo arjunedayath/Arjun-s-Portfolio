@@ -732,7 +732,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 }
 
 /* ========================================================
-   ATS RESUME / CV MODAL & STYLING (98% ATS OPTIMIZED)
+   ATS RESUME / CV STYLING (EXACT HARVARD / IVY LEAGUE ATS FORMAT)
    ======================================================== */
 #resumeModal {
   position: fixed; inset: 0; background: rgba(3, 4, 10, 0.94);
@@ -742,9 +742,9 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 }
 #resumeModal.open { display: flex; opacity: 1; }
 .resume-modal-box {
-  position: relative; width: 100%; max-width: 900px; height: 92vh;
+  position: relative; width: 100%; max-width: 920px; height: 94vh;
   display: flex; flex-direction: column; background: #0f111a;
-  border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px;
   overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.85);
 }
 .resume-modal-header {
@@ -770,76 +770,92 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   flex: 1; overflow-y: auto; padding: 24px 16px; background: #05060a;
   display: flex; justify-content: center;
 }
-.resume-paper {
-  width: 100%; max-width: 780px; background: #0a0c14; color: #e2e8f0;
-  padding: 40px 46px; border-radius: 8px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.6;
+
+/* ATS Resume Paper (Exact Sample Replica) */
+.ats-paper {
+  width: 100%; max-width: 800px;
+  background: #ffffff; color: #111827;
+  padding: 40px 48px; border-radius: 4px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+  font-family: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.42;
+  transition: all .2s ease;
 }
-.resume-paper.light-mode {
-  background: #ffffff !important; color: #1e293b !important;
-  border: 1px solid #cbd5e1;
+
+/* Black ATS Theme (High Contrast Dark Mode) */
+.ats-paper.black-theme {
+  background: #0d1117 !important; color: #e6edf3 !important;
+  border: 1px solid #30363d; box-shadow: 0 10px 40px rgba(0,0,0,0.7);
 }
-.resume-paper.light-mode h1,
-.resume-paper.light-mode h2,
-.resume-paper.light-mode h3,
-.resume-paper.light-mode b,
-.resume-paper.light-mode strong { color: #0f172a !important; }
-.resume-paper.light-mode .r-sec-title {
-  color: #0f172a !important; border-bottom-color: #cbd5e1 !important;
+.ats-paper.black-theme .ats-name { color: #58a6ff !important; }
+.ats-paper.black-theme .ats-sec-title {
+  color: #58a6ff !important; border-bottom-color: #58a6ff !important;
 }
-.resume-paper.light-mode .r-item-sub,
-.resume-paper.light-mode .r-contact { color: #475569 !important; }
-.resume-paper.light-mode .r-tag {
-  background: #f1f5f9 !important; color: #334155 !important;
-  border-color: #cbd5e1 !important;
+.ats-paper.black-theme .ats-role,
+.ats-paper.black-theme .ats-contact,
+.ats-paper.black-theme .ats-item-sub,
+.ats-paper.black-theme .ats-date { color: #8b949e !important; }
+.ats-paper.black-theme b,
+.ats-paper.black-theme strong,
+.ats-paper.black-theme .ats-item-title { color: #ffffff !important; }
+.ats-paper.black-theme a { color: #58a6ff !important; }
+.ats-paper.black-theme .ats-bullets { color: #c9d1d9 !important; }
+
+/* Document Header */
+.ats-header { text-align: center; margin-bottom: 12px; }
+.ats-name {
+  font-size: 1.85rem; font-weight: 800; letter-spacing: 0.05em;
+  color: #1a428a; margin: 0 0 2px 0; text-transform: uppercase;
 }
-.r-header {
-  text-align: center; padding-bottom: 18px;
-  border-bottom: 2px solid rgba(255, 107, 53, 0.35); margin-bottom: 20px;
+.ats-role {
+  font-size: 1.05rem; font-weight: 600; color: #4b5563; margin: 0 0 5px 0;
 }
-.r-name {
-  font-size: 2rem; font-weight: 800; letter-spacing: -0.02em;
-  color: #ffffff; margin: 0 0 6px 0; text-transform: uppercase;
+.ats-contact {
+  font-size: 0.86rem; color: #374151; line-height: 1.45;
 }
-.r-headline {
-  font-size: 1.02rem; font-weight: 600; color: #ff6b35; margin: 0 0 10px 0;
+.ats-contact a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.ats-phone-space {
+  display: inline-block; min-width: 90px; border-bottom: 1px dashed #9ca3af;
+  vertical-align: middle; margin: 0 3px; height: 1em;
 }
-.r-contact {
-  display: flex; align-items: center; justify-content: center;
-  flex-wrap: wrap; gap: 8px 16px; font-size: 0.88rem; color: #94a3b8;
+
+/* Section Headings */
+.ats-sec { margin-bottom: 12px; }
+.ats-sec-title {
+  font-size: 0.94rem; font-weight: 800; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #1a428a;
+  border-bottom: 1.5px solid #1a428a;
+  padding-bottom: 2px; margin: 0 0 6px 0;
 }
-.r-contact a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-.r-sec { margin-bottom: 20px; }
-.r-sec-title {
-  font-size: 0.95rem; font-weight: 800; letter-spacing: 0.08em;
-  text-transform: uppercase; color: #ffffff; padding-bottom: 5px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15); margin: 0 0 12px 0;
+.ats-p {
+  font-size: 0.86rem; line-height: 1.45; color: inherit; margin: 0; text-align: justify;
 }
-.r-p { font-size: 0.9rem; color: #cbd5e1; margin: 0 0 8px 0; text-align: justify; }
-.r-skills-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-.r-tag {
-  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #cbd5e1; padding: 3px 9px; border-radius: 4px; font-size: 0.82rem; font-weight: 500;
+.ats-skill-line {
+  font-size: 0.86rem; line-height: 1.45; margin-bottom: 3px;
 }
-.r-item { margin-bottom: 14px; }
-.r-item-head {
+.ats-item { margin-bottom: 7px; }
+.ats-item-head {
   display: flex; justify-content: space-between; align-items: baseline;
-  flex-wrap: wrap; gap: 4px;
+  font-size: 0.88rem; flex-wrap: wrap; gap: 4px;
 }
-.r-item-title { font-size: 0.96rem; font-weight: 700; color: #ffffff; }
-.r-item-sub { font-size: 0.84rem; color: #94a3b8; }
-.r-item-date { font-size: 0.84rem; color: #ff6b35; font-weight: 600; }
+.ats-item-title { font-weight: 700; color: #111827; }
+.ats-item-sub {
+  font-style: italic; font-size: 0.84rem; color: #4b5563; margin-top: 1px;
+}
+.ats-date { font-size: 0.84rem; color: #4b5563; font-weight: 500; }
+.ats-bullets {
+  margin: 3px 0 0 16px; padding: 0; font-size: 0.85rem; line-height: 1.4; color: #1f2937;
+}
+.ats-bullets li { margin-bottom: 2px; }
+
+/* Print Styles */
 @media print {
-  body > * { display: none !important; }
+  body * { visibility: hidden !important; }
+  #resumeModal, #resumeModal * { visibility: visible !important; }
   #resumeModal {
-    position: static !important; inset: auto !important; background: transparent !important;
-    display: block !important; padding: 0 !important; margin: 0 !important;
-    opacity: 1 !important;
+    position: absolute !important; inset: 0 !important; background: transparent !important;
+    display: block !important; padding: 0 !important; margin: 0 !important; opacity: 1 !important;
   }
-  #resumeModal > * { display: block !important; }
   .no-print { display: none !important; }
   .resume-modal-box {
     max-width: 100% !important; height: auto !important; border: none !important;
@@ -848,13 +864,12 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   .resume-paper-wrap {
     padding: 0 !important; background: transparent !important; overflow: visible !important;
   }
-  .resume-paper {
-    max-width: 100% !important; padding: 15mm 12mm !important; border: none !important;
+  .ats-paper {
+    max-width: 100% !important; padding: 10mm 12mm !important; border: none !important;
     box-shadow: none !important; -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 }
-
 </style>
 </head>
 <body>
@@ -1905,7 +1920,7 @@ $('#theme').onclick = () => setTheme(document.documentElement.dataset.theme === 
 
 
 /* ========================================================
-   DYNAMIC 98% ATS RESUME / CV GENERATOR
+   DYNAMIC 98% ATS RESUME / CV GENERATOR (EXACT SAMPLE REPLICA)
    ======================================================== */
 function escapeHTML(str){
   if (!str) return '';
@@ -1914,137 +1929,167 @@ function escapeHTML(str){
 
 function generateResumeHTML(){
   const p = appData.profile || defaultData.profile || {};
-  const name = (p.name || 'ARJUN E M').trim();
-  const headline = p.headline || 'Robotics & Technology Enthusiast';
-  const summary = p.about || p.bio || '';
-  const location = p.location || 'Malappuram, Kerala';
-  const email = p.email || 'arjunaju05@gmail.com';
-  const linkedin = p.linkedin || 'https://linkedin.com/in/arjun-aju';
-  const cleanLinkedin = linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  const name = (p.name || 'ARJUN EM').trim();
+  const headline = p.headline || 'Embedded Engineer';
+  const location = p.location || 'Malappuram, Kerala, India';
+  const email = p.email || 'arjun.edayath@gmail.com';
+  const linkedin = p.linkedin || 'https://www.linkedin.com/in/arjun-edayath';
+  const cleanLinkedin = linkedin.startsWith('http') ? linkedin : `https://${linkedin}`;
 
-  const skills = (appData.skills || defaultData.skills || []).map(s => Array.isArray(s) ? s[0] : s);
-  const projects = appData.projects || defaultData.projects || [];
-  const certs = appData.certificates || defaultData.certificates || [];
-  const quals = appData.qualifications || defaultData.qualifications || [];
+  // Phone space placeholder as requested by user
+  const phoneDisplay = p.phone ? escapeHTML(p.phone) : '+91 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+  // Professional Summary
+  const defaultSummary = 'Embedded systems developer and BCA graduate (2026) with hands-on experience in ESP32 and Arduino-based projects, Embedded C/C++ programming, hardware integration and wireless communication. Built a Bluetooth gaming controller, a stepper-motor CNC plotter and an IoT keychain gadget. Additional exposure to ROS2 and robotics. Seeking an Embedded Engineer role to develop firmware and control systems for robotic platforms.';
+  const summary = (p.about && p.about.length > 50) ? p.about : defaultSummary;
+
+  // Projects list
+  const projects = (appData.projects && appData.projects.length) ? appData.projects : [
+    {
+      t: 'ESP32-Based Gaming Controller',
+      g: '',
+      bullets: [
+        'Designed and built a custom gaming controller around an ESP32 microcontroller.',
+        'Implemented button-based input handling and integrated a 0.96-inch OLED display.',
+        'Developed a controller interface with connection status features over Bluetooth communication.'
+      ]
+    },
+    {
+      t: 'CNC Plotter / Drawing Robot',
+      g: '',
+      bullets: [
+        'Developed a motion-control system using Arduino / ESP32 with NEMA17 stepper motors.',
+        'Integrated a CNC Shield and A4988 stepper drivers, handling motor direction and step control.',
+        'Worked with G-code-based motion to produce controlled drawing movements.'
+      ]
+    },
+    {
+      t: 'IoT-Based Keychain Gadget',
+      g: 'Ongoing',
+      bullets: [
+        'Connects to a mobile phone to show live notifications and phone call alerts.',
+        'Connects over Wi-Fi through the phone’s network; displays location and time, and includes small games.',
+        'Extending the gadget into a home-automation remote and notifier.'
+      ]
+    }
+  ];
+
+  // Certifications list
+  const certs = (appData.certificates && appData.certificates.length) ? appData.certificates : [];
 
   return `
-    <header class="r-header">
-      <h1 class="r-name">${escapeHTML(name)}</h1>
-      <div class="r-headline">${escapeHTML(headline)}</div>
-      <div class="r-contact">
-        <span>📍 ${escapeHTML(location)}</span>
-        <span>✉ <a href="mailto:${escapeHTML(email)}">${escapeHTML(email)}</a></span>
-        <span>🔗 <a href="${escapeHTML(linkedin)}" target="_blank" rel="noopener">${escapeHTML(cleanLinkedin)}</a></span>
+    <header class="ats-header">
+      <h1 class="ats-name">${escapeHTML(name)}</h1>
+      <div class="ats-role">${escapeHTML(headline)}</div>
+      <div class="ats-contact">
+        ${escapeHTML(location)} &nbsp;|&nbsp; <span>${phoneDisplay}</span> &nbsp;|&nbsp; <a href="mailto:${escapeHTML(email)}">${escapeHTML(email)}</a>
+        <br>
+        LinkedIn: <a href="${escapeHTML(cleanLinkedin)}" target="_blank" rel="noopener">${escapeHTML(cleanLinkedin)}</a>
       </div>
     </header>
 
-    ${summary ? `
-    <section class="r-sec">
-      <h2 class="r-sec-title">Professional Summary</h2>
-      <p class="r-p">${escapeHTML(summary)}</p>
+    <section class="ats-sec">
+      <h2 class="ats-sec-title">PROFESSIONAL SUMMARY</h2>
+      <p class="ats-p">${escapeHTML(summary)}</p>
     </section>
-    ` : ''}
 
-    ${skills.length ? `
-    <section class="r-sec">
-      <h2 class="r-sec-title">Core Technical Skills</h2>
-      <div class="r-skills-grid">
-        ${skills.map(s => `<span class="r-tag">${escapeHTML(s)}</span>`).join('')}
+    <section class="ats-sec">
+      <h2 class="ats-sec-title">TECHNICAL SKILLS</h2>
+      <div class="ats-skill-line"><b>Programming:</b> Embedded C, C++, Python, HTML</div>
+      <div class="ats-skill-line"><b>Microcontrollers and Boards:</b> ESP32, Arduino Uno</div>
+      <div class="ats-skill-line"><b>3D Design:</b> Fusion 360, Onshape</div>
+      <div class="ats-skill-line"><b>Core Strengths:</b> Microcontroller programming, hardware integration, practical electronics, technical problem-solving</div>
+    </section>
+
+    <section class="ats-sec">
+      <h2 class="ats-sec-title">EMBEDDED SYSTEMS PROJECTS</h2>
+      ${projects.map(pr => {
+        let bulletsHTML = '';
+        if (pr.bullets && pr.bullets.length) {
+          bulletsHTML = pr.bullets.map(b => `<li>${escapeHTML(b)}</li>`).join('');
+        } else if (pr.d) {
+          const sentences = pr.d.split(/(?<=\.)\s+/).filter(Boolean);
+          bulletsHTML = sentences.map(s => `<li>${escapeHTML(s)}</li>`).join('');
+        }
+        return `
+          <div class="ats-item">
+            <div class="ats-item-head">
+              <span class="ats-item-title">${escapeHTML(pr.t || '')}</span>
+              ${pr.g ? `<span class="ats-date">${escapeHTML(pr.g)}</span>` : ''}
+            </div>
+            ${bulletsHTML ? `<ul class="ats-bullets">${bulletsHTML}</ul>` : ''}
+          </div>
+        `;
+      }).join('')}
+    </section>
+
+    <section class="ats-sec">
+      <h2 class="ats-sec-title">WORK EXPERIENCE</h2>
+      <div class="ats-item">
+        <div class="ats-item-head">
+          <span class="ats-item-title">Intern</span>
+          <span class="ats-date">Present</span>
+        </div>
+        <div class="ats-item-sub">QMark Technolab [ Luminar Technolab collaboration ], [ Kochi ]</div>
+        <ul class="ats-bullets">
+          <li>Hands-on embedded systems work, microcontroller programming and hardware integration.</li>
+          <li>Independent technical development, practical electronics experimentation and troubleshooting.</li>
+        </ul>
+      </div>
+      <div class="ats-item">
+        <div class="ats-item-head">
+          <span class="ats-item-title">STEAM Robotics Trainer</span>
+          <span class="ats-date">3 months</span>
+        </div>
+        <div class="ats-item-sub">[ Zlyra ], [ Thrissur ]</div>
+        <ul class="ats-bullets">
+          <li>Trained students in robotics, electronics and microcontroller-based projects through practical sessions.</li>
+          <li>Guided learners in connecting sensors and motors and debugging circuits and code.</li>
+        </ul>
       </div>
     </section>
-    ` : ''}
 
-    ${projects.length ? `
-    <section class="r-sec">
-      <h2 class="r-sec-title">Key Engineering & Robotics Projects</h2>
-      ${projects.map(pr => `
-        <article class="r-item">
-          <div class="r-item-head">
-            <span class="r-item-title">${escapeHTML(pr.t || '')}</span>
-            <span class="r-item-date">${escapeHTML(pr.g || '')}</span>
-          </div>
-          ${pr.tags && pr.tags.length ? `
-            <div class="r-item-sub" style="margin-top:2px"><b>Tech Stack:</b> ${pr.tags.map(t=>escapeHTML(t)).join(', ')}</div>
-          ` : ''}
-          ${pr.d ? `<p class="r-p" style="margin-top:5px">${escapeHTML(pr.d)}</p>` : ''}
-        </article>
-      `).join('')}
+    <section class="ats-sec">
+      <h2 class="ats-sec-title">ROBOTICS AND ADDITIONAL TECHNICAL KNOWLEDGE</h2>
+      <div class="ats-skill-line"><b>Robotics Software:</b> ROS2, Gazebo simulation, URDF and Xacro, RViz</div>
+      <div class="ats-skill-line"><b>Robot Systems:</b> Robot control, motor driver integration, sensor integration</div>
     </section>
-    ` : ''}
 
-    ${certs.length ? `
-    <section class="r-sec">
-      <h2 class="r-sec-title">Verified Certifications</h2>
-      ${certs.map(c => `
-        <article class="r-item">
-          <div class="r-item-head">
-            <span class="r-item-title">${escapeHTML(c.t || '')}</span>
-            <span class="r-item-date">${escapeHTML(c.date || '')}</span>
-          </div>
-          <div class="r-item-sub">${escapeHTML(c.issuer || '')} ${c.badge ? `• ${escapeHTML(c.badge)}` : ''}</div>
-          ${c.skills && c.skills.length ? `
-            <div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap">
-              ${c.skills.map(sk=>`<span class="r-tag" style="font-size:0.75rem">${escapeHTML(sk)}</span>`).join('')}
-            </div>
-          ` : ''}
-        </article>
-      `).join('')}
+    <section class="ats-sec">
+      <h2 class="ats-sec-title">EDUCATION</h2>
+      <div class="ats-item">
+        <div class="ats-item-head">
+          <span class="ats-item-title">Bachelor of Computer Applications (BCA)</span>
+          <span class="ats-date">2026</span>
+        </div>
+        <div class="ats-item-sub">University of Calicut | Ideal College for Advanced Studies, Thavanoor, Malappuram</div>
+      </div>
     </section>
-    ` : ''}
 
-    ${quals.length ? `
-    <section class="r-sec">
-      <h2 class="r-sec-title">Education & Academic Qualifications</h2>
-      ${quals.map(q => `
-        <article class="r-item">
-          <div class="r-item-head">
-            <span class="r-item-title">${escapeHTML(q.title || '')}</span>
-            <span class="r-item-date">${escapeHTML(q.stat || '')}</span>
-          </div>
-          <div class="r-item-sub">${escapeHTML(q.inst || '')}</div>
-        </article>
-      `).join('')}
+    <section class="ats-sec">
+      <h2 class="ats-sec-title">CERTIFICATIONS AND TRAINING</h2>
+      <ul class="ats-bullets">
+        <li>Robotics Workshop (7 days), conducted at college</li>
+        <li>Cyber Security Workshop, conducted at college</li>
+        ${certs.map(c => `<li>${escapeHTML(c.t)} - ${escapeHTML(c.issuer || '')} (${escapeHTML(c.date || '')})</li>`).join('')}
+      </ul>
     </section>
-    ` : ''}
   `;
 }
 
 function generateResumePlainText(){
   const p = appData.profile || defaultData.profile || {};
-  const name = (p.name || 'ARJUN E M').trim().toUpperCase();
-  const headline = p.headline || 'Robotics & Technology Enthusiast';
-  const summary = p.about || p.bio || '';
-  const location = p.location || 'Malappuram, Kerala';
-  const email = p.email || 'arjunaju05@gmail.com';
-  const linkedin = p.linkedin || 'https://linkedin.com/in/arjun-aju';
+  const name = (p.name || 'ARJUN EM').trim().toUpperCase();
+  const headline = p.headline || 'Embedded Engineer';
+  const location = p.location || 'Malappuram, Kerala, India';
+  const email = p.email || 'arjun.edayath@gmail.com';
+  const linkedin = p.linkedin || 'https://www.linkedin.com/in/arjun-edayath';
 
-  const skills = (appData.skills || defaultData.skills || []).map(s => Array.isArray(s) ? s[0] : s);
-  const projects = appData.projects || defaultData.projects || [];
-  const certs = appData.certificates || defaultData.certificates || [];
-  const quals = appData.qualifications || defaultData.qualifications || [];
-
-  let out = `${name}\n${headline}\nLocation: ${location} | Email: ${email} | LinkedIn: ${linkedin}\n\n`;
-  if (summary) out += `PROFESSIONAL SUMMARY\n${summary}\n\n`;
-  if (skills.length) out += `CORE TECHNICAL SKILLS\n${skills.join(', ')}\n\n`;
-  if (projects.length) {
-    out += `KEY ENGINEERING & ROBOTICS PROJECTS\n`;
-    projects.forEach(pr => {
-      out += `• ${pr.t} (${pr.g || ''})\n  Technologies: ${(pr.tags || []).join(', ')}\n  ${pr.d || ''}\n\n`;
-    });
-  }
-  if (certs.length) {
-    out += `VERIFIED CERTIFICATIONS\n`;
-    certs.forEach(c => {
-      out += `• ${c.t} - ${c.issuer} (${c.date})\n  Skills: ${(c.skills || []).join(', ')}\n`;
-    });
-    out += '\n';
-  }
-  if (quals.length) {
-    out += `EDUCATION & QUALIFICATIONS\n`;
-    quals.forEach(q => {
-      out += `• ${q.title} - ${q.inst} (${q.stat})\n`;
-    });
-  }
+  let out = `${name}\n${headline}\n${location} | [Phone] | ${email}\nLinkedIn: ${linkedin}\n\n`;
+  out += `PROFESSIONAL SUMMARY\n${(p.about && p.about.length > 50) ? p.about : 'Embedded systems developer and BCA graduate (2026) with hands-on experience in ESP32 and Arduino-based projects, Embedded C/C++ programming, hardware integration and wireless communication. Seeking an Embedded Engineer role.'}\n\n`;
+  out += `TECHNICAL SKILLS\nProgramming: Embedded C, C++, Python, HTML\nMicrocontrollers and Boards: ESP32, Arduino Uno\n3D Design: Fusion 360, Onshape\nCore Strengths: Microcontroller programming, hardware integration, practical electronics\n\n`;
+  out += `WORK EXPERIENCE\n• Intern - QMark Technolab (Present)\n• STEAM Robotics Trainer - Zlyra (3 months)\n\n`;
+  out += `EDUCATION\n• Bachelor of Computer Applications (BCA) - University of Calicut (2026)\n\n`;
   return out;
 }
 
@@ -2053,6 +2098,7 @@ const resumeDoc = $('#resumeDoc');
 
 function openResumeModal(){
   if (!resumeDoc || !resumeModal) return;
+  resumeDoc.className = 'ats-paper'; // default to exact sample look
   resumeDoc.innerHTML = generateResumeHTML();
   resumeModal.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -2086,9 +2132,9 @@ if ($('#printResumeBtn')) {
 }
 if ($('#toggleThemeBtn')) {
   $('#toggleThemeBtn').onclick = () => {
-    resumeDoc.classList.toggle('light-mode');
-    const isLight = resumeDoc.classList.contains('light-mode');
-    $('#toggleThemeBtn').textContent = isLight ? '🌙 Dark Mode' : '☀️ Light Mode';
+    resumeDoc.classList.toggle('black-theme');
+    const isDark = resumeDoc.classList.contains('black-theme');
+    $('#toggleThemeBtn').textContent = isDark ? '📄 White Paper' : '🌙 Black Theme';
   };
 }
 if ($('#copyResumeTextBtn')) {
@@ -2101,29 +2147,6 @@ if ($('#copyResumeTextBtn')) {
     });
   };
 }
-
-
-/* Copy email on click */
-$('#contactMail').addEventListener('click', e => {
-  try {
-    navigator.clipboard.writeText('arjun.edayth@gmail.com');
-    toast('Email address copied to clipboard!');
-  } catch(err){}
-});
-
-/* ========================================================
-   INITIAL RENDER CALL
-   ======================================================== */
-function renderAll(){
-  renderProfile();
-  renderProjects();
-  renderCertificatesAlbum();
-  renderQualifications();
-  renderSkills();
-  observeReveals();
-}
-renderAll(); // Fast local/default first paint.
-loadPortfolioFromSupabase(false); // Then load the authoritative cloud record.
 </script>
 </body>
 </html>
