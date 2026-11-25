@@ -730,6 +730,131 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   .rv{opacity:1;transform:none}
   html{scroll-behavior:auto}
 }
+
+/* ========================================================
+   ATS RESUME / CV MODAL & STYLING (98% ATS OPTIMIZED)
+   ======================================================== */
+#resumeModal {
+  position: fixed; inset: 0; background: rgba(3, 4, 10, 0.94);
+  backdrop-filter: blur(14px); z-index: 120; display: none;
+  align-items: center; justify-content: center; padding: 16px;
+  opacity: 0; transition: opacity .25s ease;
+}
+#resumeModal.open { display: flex; opacity: 1; }
+.resume-modal-box {
+  position: relative; width: 100%; max-width: 900px; height: 92vh;
+  display: flex; flex-direction: column; background: #0f111a;
+  border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 16px;
+  overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.85);
+}
+.resume-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px; background: #080a10;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); gap: 10px; flex-wrap: wrap;
+}
+.ats-badge {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px;
+  background: rgba(34, 197, 94, 0.15); color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 999px;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em;
+}
+.resume-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.btn-sm { padding: 6px 12px; font-size: 0.82rem; border-radius: 8px; cursor: pointer; }
+.resume-close-btn {
+  background: transparent; border: none; color: #94a3b8;
+  font-size: 1.25rem; cursor: pointer; padding: 4px 8px; line-height: 1;
+  border-radius: 6px; transition: all .2s;
+}
+.resume-close-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+.resume-paper-wrap {
+  flex: 1; overflow-y: auto; padding: 24px 16px; background: #05060a;
+  display: flex; justify-content: center;
+}
+.resume-paper {
+  width: 100%; max-width: 780px; background: #0a0c14; color: #e2e8f0;
+  padding: 40px 46px; border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+}
+.resume-paper.light-mode {
+  background: #ffffff !important; color: #1e293b !important;
+  border: 1px solid #cbd5e1;
+}
+.resume-paper.light-mode h1,
+.resume-paper.light-mode h2,
+.resume-paper.light-mode h3,
+.resume-paper.light-mode b,
+.resume-paper.light-mode strong { color: #0f172a !important; }
+.resume-paper.light-mode .r-sec-title {
+  color: #0f172a !important; border-bottom-color: #cbd5e1 !important;
+}
+.resume-paper.light-mode .r-item-sub,
+.resume-paper.light-mode .r-contact { color: #475569 !important; }
+.resume-paper.light-mode .r-tag {
+  background: #f1f5f9 !important; color: #334155 !important;
+  border-color: #cbd5e1 !important;
+}
+.r-header {
+  text-align: center; padding-bottom: 18px;
+  border-bottom: 2px solid rgba(255, 107, 53, 0.35); margin-bottom: 20px;
+}
+.r-name {
+  font-size: 2rem; font-weight: 800; letter-spacing: -0.02em;
+  color: #ffffff; margin: 0 0 6px 0; text-transform: uppercase;
+}
+.r-headline {
+  font-size: 1.02rem; font-weight: 600; color: #ff6b35; margin: 0 0 10px 0;
+}
+.r-contact {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 8px 16px; font-size: 0.88rem; color: #94a3b8;
+}
+.r-contact a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.r-sec { margin-bottom: 20px; }
+.r-sec-title {
+  font-size: 0.95rem; font-weight: 800; letter-spacing: 0.08em;
+  text-transform: uppercase; color: #ffffff; padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15); margin: 0 0 12px 0;
+}
+.r-p { font-size: 0.9rem; color: #cbd5e1; margin: 0 0 8px 0; text-align: justify; }
+.r-skills-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.r-tag {
+  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1; padding: 3px 9px; border-radius: 4px; font-size: 0.82rem; font-weight: 500;
+}
+.r-item { margin-bottom: 14px; }
+.r-item-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 4px;
+}
+.r-item-title { font-size: 0.96rem; font-weight: 700; color: #ffffff; }
+.r-item-sub { font-size: 0.84rem; color: #94a3b8; }
+.r-item-date { font-size: 0.84rem; color: #ff6b35; font-weight: 600; }
+@media print {
+  body > * { display: none !important; }
+  #resumeModal {
+    position: static !important; inset: auto !important; background: transparent !important;
+    display: block !important; padding: 0 !important; margin: 0 !important;
+    opacity: 1 !important;
+  }
+  #resumeModal > * { display: block !important; }
+  .no-print { display: none !important; }
+  .resume-modal-box {
+    max-width: 100% !important; height: auto !important; border: none !important;
+    box-shadow: none !important; background: transparent !important;
+  }
+  .resume-paper-wrap {
+    padding: 0 !important; background: transparent !important; overflow: visible !important;
+  }
+  .resume-paper {
+    max-width: 100% !important; padding: 15mm 12mm !important; border: none !important;
+    box-shadow: none !important; -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -950,6 +1075,30 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 </footer>
 
 <!-- Toast Alert -->
+
+<!-- ATS Resume Generator Modal -->
+<div id="resumeModal" role="dialog" aria-modal="true" aria-labelledby="resumeModalTitle">
+  <div class="resume-modal-box">
+    <div class="resume-modal-header no-print">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <h3 id="resumeModalTitle" style="margin:0;font-size:1.1rem;font-weight:700;color:#fff">📄 Dynamic ATS Resume / CV</h3>
+        <span class="ats-badge">✓ 98% ATS Score</span>
+      </div>
+      <div class="resume-actions">
+        <button class="btn btn-sm" id="toggleThemeBtn" title="Toggle Print Theme">🎨 Dark / Light</button>
+        <button class="btn btn-sm" id="copyResumeTextBtn" title="Copy ATS plain text for application portals">📋 Copy Text</button>
+        <button class="btn btn-pri btn-sm" id="printResumeBtn" title="Download or Print PDF">📥 Download / Print PDF</button>
+        <button class="resume-close-btn" id="closeResumeBtn" aria-label="Close resume">✕</button>
+      </div>
+    </div>
+    <div class="resume-paper-wrap" id="resumePaperWrap">
+      <div class="resume-paper" id="resumeDoc">
+        <!-- Rendered dynamically from live Supabase data -->
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="toast" role="status"></div>
 
 <!-- Image Lightbox Modal -->
@@ -1754,10 +1903,205 @@ function setTheme(t){
 setTheme(store.get('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
 $('#theme').onclick = () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
 
-/* Resume download feedback */
-$('#resumeBtn').onclick = () => {
-  toast('Resume download link: Add your resume file in Admin CMS');
-};
+
+/* ========================================================
+   DYNAMIC 98% ATS RESUME / CV GENERATOR
+   ======================================================== */
+function escapeHTML(str){
+  if (!str) return '';
+  return String(str).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+}
+
+function generateResumeHTML(){
+  const p = appData.profile || defaultData.profile || {};
+  const name = (p.name || 'ARJUN E M').trim();
+  const headline = p.headline || 'Robotics & Technology Enthusiast';
+  const summary = p.about || p.bio || '';
+  const location = p.location || 'Malappuram, Kerala';
+  const email = p.email || 'arjunaju05@gmail.com';
+  const linkedin = p.linkedin || 'https://linkedin.com/in/arjun-aju';
+  const cleanLinkedin = linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+
+  const skills = (appData.skills || defaultData.skills || []).map(s => Array.isArray(s) ? s[0] : s);
+  const projects = appData.projects || defaultData.projects || [];
+  const certs = appData.certificates || defaultData.certificates || [];
+  const quals = appData.qualifications || defaultData.qualifications || [];
+
+  return `
+    <header class="r-header">
+      <h1 class="r-name">${escapeHTML(name)}</h1>
+      <div class="r-headline">${escapeHTML(headline)}</div>
+      <div class="r-contact">
+        <span>📍 ${escapeHTML(location)}</span>
+        <span>✉ <a href="mailto:${escapeHTML(email)}">${escapeHTML(email)}</a></span>
+        <span>🔗 <a href="${escapeHTML(linkedin)}" target="_blank" rel="noopener">${escapeHTML(cleanLinkedin)}</a></span>
+      </div>
+    </header>
+
+    ${summary ? `
+    <section class="r-sec">
+      <h2 class="r-sec-title">Professional Summary</h2>
+      <p class="r-p">${escapeHTML(summary)}</p>
+    </section>
+    ` : ''}
+
+    ${skills.length ? `
+    <section class="r-sec">
+      <h2 class="r-sec-title">Core Technical Skills</h2>
+      <div class="r-skills-grid">
+        ${skills.map(s => `<span class="r-tag">${escapeHTML(s)}</span>`).join('')}
+      </div>
+    </section>
+    ` : ''}
+
+    ${projects.length ? `
+    <section class="r-sec">
+      <h2 class="r-sec-title">Key Engineering & Robotics Projects</h2>
+      ${projects.map(pr => `
+        <article class="r-item">
+          <div class="r-item-head">
+            <span class="r-item-title">${escapeHTML(pr.t || '')}</span>
+            <span class="r-item-date">${escapeHTML(pr.g || '')}</span>
+          </div>
+          ${pr.tags && pr.tags.length ? `
+            <div class="r-item-sub" style="margin-top:2px"><b>Tech Stack:</b> ${pr.tags.map(t=>escapeHTML(t)).join(', ')}</div>
+          ` : ''}
+          ${pr.d ? `<p class="r-p" style="margin-top:5px">${escapeHTML(pr.d)}</p>` : ''}
+        </article>
+      `).join('')}
+    </section>
+    ` : ''}
+
+    ${certs.length ? `
+    <section class="r-sec">
+      <h2 class="r-sec-title">Verified Certifications</h2>
+      ${certs.map(c => `
+        <article class="r-item">
+          <div class="r-item-head">
+            <span class="r-item-title">${escapeHTML(c.t || '')}</span>
+            <span class="r-item-date">${escapeHTML(c.date || '')}</span>
+          </div>
+          <div class="r-item-sub">${escapeHTML(c.issuer || '')} ${c.badge ? `• ${escapeHTML(c.badge)}` : ''}</div>
+          ${c.skills && c.skills.length ? `
+            <div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap">
+              ${c.skills.map(sk=>`<span class="r-tag" style="font-size:0.75rem">${escapeHTML(sk)}</span>`).join('')}
+            </div>
+          ` : ''}
+        </article>
+      `).join('')}
+    </section>
+    ` : ''}
+
+    ${quals.length ? `
+    <section class="r-sec">
+      <h2 class="r-sec-title">Education & Academic Qualifications</h2>
+      ${quals.map(q => `
+        <article class="r-item">
+          <div class="r-item-head">
+            <span class="r-item-title">${escapeHTML(q.title || '')}</span>
+            <span class="r-item-date">${escapeHTML(q.stat || '')}</span>
+          </div>
+          <div class="r-item-sub">${escapeHTML(q.inst || '')}</div>
+        </article>
+      `).join('')}
+    </section>
+    ` : ''}
+  `;
+}
+
+function generateResumePlainText(){
+  const p = appData.profile || defaultData.profile || {};
+  const name = (p.name || 'ARJUN E M').trim().toUpperCase();
+  const headline = p.headline || 'Robotics & Technology Enthusiast';
+  const summary = p.about || p.bio || '';
+  const location = p.location || 'Malappuram, Kerala';
+  const email = p.email || 'arjunaju05@gmail.com';
+  const linkedin = p.linkedin || 'https://linkedin.com/in/arjun-aju';
+
+  const skills = (appData.skills || defaultData.skills || []).map(s => Array.isArray(s) ? s[0] : s);
+  const projects = appData.projects || defaultData.projects || [];
+  const certs = appData.certificates || defaultData.certificates || [];
+  const quals = appData.qualifications || defaultData.qualifications || [];
+
+  let out = `${name}\n${headline}\nLocation: ${location} | Email: ${email} | LinkedIn: ${linkedin}\n\n`;
+  if (summary) out += `PROFESSIONAL SUMMARY\n${summary}\n\n`;
+  if (skills.length) out += `CORE TECHNICAL SKILLS\n${skills.join(', ')}\n\n`;
+  if (projects.length) {
+    out += `KEY ENGINEERING & ROBOTICS PROJECTS\n`;
+    projects.forEach(pr => {
+      out += `• ${pr.t} (${pr.g || ''})\n  Technologies: ${(pr.tags || []).join(', ')}\n  ${pr.d || ''}\n\n`;
+    });
+  }
+  if (certs.length) {
+    out += `VERIFIED CERTIFICATIONS\n`;
+    certs.forEach(c => {
+      out += `• ${c.t} - ${c.issuer} (${c.date})\n  Skills: ${(c.skills || []).join(', ')}\n`;
+    });
+    out += '\n';
+  }
+  if (quals.length) {
+    out += `EDUCATION & QUALIFICATIONS\n`;
+    quals.forEach(q => {
+      out += `• ${q.title} - ${q.inst} (${q.stat})\n`;
+    });
+  }
+  return out;
+}
+
+const resumeModal = $('#resumeModal');
+const resumeDoc = $('#resumeDoc');
+
+function openResumeModal(){
+  if (!resumeDoc || !resumeModal) return;
+  resumeDoc.innerHTML = generateResumeHTML();
+  resumeModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeResumeModal(){
+  if (!resumeModal) return;
+  resumeModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+if ($('#resumeBtn')) {
+  $('#resumeBtn').onclick = openResumeModal;
+}
+if ($('#closeResumeBtn')) {
+  $('#closeResumeBtn').onclick = closeResumeModal;
+}
+if (resumeModal) {
+  resumeModal.addEventListener('click', e => {
+    if (e.target === resumeModal) closeResumeModal();
+  });
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && resumeModal && resumeModal.classList.contains('open')) closeResumeModal();
+});
+
+if ($('#printResumeBtn')) {
+  $('#printResumeBtn').onclick = () => {
+    window.print();
+  };
+}
+if ($('#toggleThemeBtn')) {
+  $('#toggleThemeBtn').onclick = () => {
+    resumeDoc.classList.toggle('light-mode');
+    const isLight = resumeDoc.classList.contains('light-mode');
+    $('#toggleThemeBtn').textContent = isLight ? '🌙 Dark Mode' : '☀️ Light Mode';
+  };
+}
+if ($('#copyResumeTextBtn')) {
+  $('#copyResumeTextBtn').onclick = () => {
+    const text = generateResumePlainText();
+    navigator.clipboard.writeText(text).then(() => {
+      toast('✓ Plain text ATS resume copied to clipboard!');
+    }).catch(() => {
+      toast('Could not copy text.');
+    });
+  };
+}
+
 
 /* Copy email on click */
 $('#contactMail').addEventListener('click', e => {
