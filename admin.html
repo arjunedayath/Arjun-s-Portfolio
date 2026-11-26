@@ -763,6 +763,29 @@ function showDashboard() {
   $('#adminApp').style.visibility = 'visible';
 }
 
+
+async function ensureValidAdminSession() {
+  try {
+    const { data: { session }, error } = await supabaseClient.auth.getSession();
+    if (error || !session) return null;
+    const now = Math.floor(Date.now() / 1000);
+    if (!session.expires_at || session.expires_at <= now + 60) {
+      console.log('JWT expired or expiring soon, refreshing session...');
+      const { data: refreshData, error: refreshErr } = await supabaseClient.auth.refreshSession();
+      if (refreshErr || !refreshData.session) {
+        console.warn('Session refresh failed:', refreshErr);
+        await supabaseClient.auth.signOut();
+        return null;
+      }
+      return refreshData.session;
+    }
+    return session;
+  } catch (err) {
+    console.error('Session validation error:', err);
+    return null;
+  }
+}
+
 async function tryUnlock() {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
@@ -1119,7 +1142,22 @@ async function normalizeImagesForCloud(data) {
 }
 
 async function loadCloudDataForAdmin() {
-  const { data, error } = await supabaseClient.from('portfolio_content').select('data').eq('id', 1).maybeSingle();
+  await ensureValidAdminSession();
+  let { data, error } = await supabaseClient.from('portfolio_content').select('data').eq('id', 1).maybeSingle();
+  if (error && (error.message?.includes('JWT') || error.code === 'PGRST301')) {
+    console.log('JWT expired detected on query, refreshing session and retrying...');
+    const refreshed = await ensureValidAdminSession();
+    if (refreshed?.user?.id === ADMIN_USER_ID) {
+      const retry = await supabaseClient.from('portfolio_content').select('data').eq('id', 1).maybeSingle();
+      data = retry.data;
+      error = retry.error;
+    } else {
+      await supabaseClient.auth.signOut();
+      showLogin();
+      showToast('Session expired. Please sign in again.');
+      return;
+    }
+  }
   if (error) { showToast('Could not load cloud data: ' + error.message); return; }
   if (data?.data) {
     appData = data.data;
@@ -1172,15 +1210,26 @@ async function saveData(silent=false){
     return;
   }
   cloudSaveQueue = cloudSaveQueue.catch(() => {}).then(async () => {
+    await ensureValidAdminSession();
     const cloudData = await normalizeImagesForCloud(appData);
-    // Persist any migrated data-URL images as Storage URLs in the in-memory/local copy too.
     appData = cloudData;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-    const { error } = await supabaseClient.from('portfolio_content').upsert(
+    let { error } = await supabaseClient.from('portfolio_content').upsert(
       { id: 1, data: appData, updated_at: new Date().toISOString() },
       { onConflict: 'id' }
     );
+    if (error && (error.message?.includes('JWT') || error.code === 'PGRST301')) {
+      const refreshed = await ensureValidAdminSession();
+      if (refreshed?.user?.id === ADMIN_USER_ID) {
+        const retry = await supabaseClient.from('portfolio_content').upsert(
+          { id: 1, data: appData, updated_at: new Date().toISOString() },
+          { onConflict: 'id' }
+        );
+        error = retry.error;
+      }
+    }
     if (error) throw error;
+    if (broadcast) broadcast.postMessage({ type: 'DATA_UPDATED' });
   });
   try {
     await cloudSaveQueue;
@@ -1836,7 +1885,7 @@ function renderAll(){
 // Hide the dashboard until Supabase confirms the administrator session.
 showLogin();
 (async function initAdminAuth(){
-  const { data: { session } } = await supabaseClient.auth.getSession();
+  const session = await ensureValidAdminSession();
   if (session?.user?.id === ADMIN_USER_ID) {
     showDashboard();
     await loadCloudDataForAdmin();

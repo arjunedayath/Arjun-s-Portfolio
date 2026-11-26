@@ -1183,7 +1183,7 @@ const $$=s=>[...document.querySelectorAll(s)];
 
 const SUPABASE_URL = "https://bgmbvtjrbfqelouaofci.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_lAz45FnUEDir0y7mLI3oqw_mHu2KAi7";
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false } });
 
 /* Storage & Synchronization helper */
 const STORAGE_KEY = 'arjun_portfolio_v2';
