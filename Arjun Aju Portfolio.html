@@ -326,7 +326,6 @@ h1 span{
   animation:projScroll var(--rail-dur,40s) linear infinite;
   width:max-content;
 }
-.proj-rail:hover{animation-play-state:paused}
 
 .pc{
   position:relative;border-radius:22px;border:1px solid var(--line);
@@ -425,11 +424,11 @@ h1 span{
   cursor:pointer;user-select:none;
   transform-origin:center center;
   will-change:transform,opacity,filter,box-shadow;
-  transition:transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-             opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-             filter 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-             box-shadow 0.85s ease,
-             border-color 0.6s ease;
+  transition:transform 0.55s cubic-bezier(0.2, 0.85, 0.3, 1),
+             opacity 0.55s cubic-bezier(0.2, 0.85, 0.3, 1),
+             filter 0.55s cubic-bezier(0.2, 0.85, 0.3, 1),
+             box-shadow 0.55s ease,
+             border-color 0.5s ease;
 }
 /* Album coverflow 3D positioning states */
 .album-card.active{
@@ -866,10 +865,10 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     <p class="sec-desc">Explore robotics simulations, embedded electronics, and software systems built from scratch.</p>
   </div>
   <div class="filters rv" id="filters"></div>
-  <div class="proj-showcase rv">
+  <div class="proj-showcase">
     <div class="proj-rail" id="pgrid"></div>
   </div>
-  <div class="proj-progress rv"><div class="proj-progress-bar"></div></div>
+  <div class="proj-progress"><div class="proj-progress-bar"></div></div>
 </section>
 
 <!-- ========================================================
@@ -882,7 +881,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     <p class="sec-desc">Interactive sliding album showcasing accredited credentials in Robotics, IoT, Embedded Systems, and AI.</p>
   </div>
 
-  <div class="album-viewport rv scale" id="albumViewport">
+  <div class="album-viewport" id="albumViewport">
     <div class="album-track" id="albumTrack">
       <!-- Injected via JavaScript from data -->
     </div>
@@ -1498,29 +1497,61 @@ $('#albumViewport').addEventListener('touchend', e => {
   if (touchStartX - touchEndX > 45) { slideAlbum(1); resetAutoSlide(); }
 }, {passive:true});
 
-/* AUTO-SLIDE: certificates slide every 2 seconds automatically */
+/* AUTO-SLIDE: certificates slide automatically with ZERO starting delays */
 let autoSlideTimer = null;
-function startAutoSlide(){
+let mouseResumeTimer = null;
+
+function startAutoSlide(immediate = false){
   stopAutoSlide();
+  if (immediate) {
+    slideAlbum(1);
+  }
   autoSlideTimer = setInterval(() => slideAlbum(1), 2000);
 }
+
 function stopAutoSlide(){
   if (autoSlideTimer) { clearInterval(autoSlideTimer); autoSlideTimer = null; }
+  if (mouseResumeTimer) { clearTimeout(mouseResumeTimer); mouseResumeTimer = null; }
 }
-function resetAutoSlide(){
+
+function resetAutoSlide(immediate = false){
   stopAutoSlide();
-  startAutoSlide();
+  startAutoSlide(immediate);
 }
-/* Pause auto-slide on hover, resume on leave */
-$('#albumViewport').addEventListener('mouseenter', stopAutoSlide);
-$('#albumViewport').addEventListener('mouseleave', startAutoSlide);
-/* Start auto-sliding when section is visible */
+
+/* Mouse hover: only pause if actively hovering the focused card.
+   When the mouse leaves or moves away, resume immediately with NO delay! */
+$('#albumTrack').addEventListener('mouseenter', e => {
+  if (e.target.closest('.album-card.active')) {
+    stopAutoSlide();
+  }
+}, true);
+
+$('#albumViewport').addEventListener('mouseleave', () => {
+  stopAutoSlide();
+  // Resume immediately within 200ms when mouse leaves with an instant slide
+  mouseResumeTimer = setTimeout(() => {
+    startAutoSlide(true);
+  }, 200);
+});
+
+/* Start auto-sliding immediately the moment certificates section scrolls into view (zero delay) */
+let certInView = false;
 const certAutoIO = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if (e.isIntersecting) startAutoSlide();
-    else stopAutoSlide();
+    if (e.isIntersecting) {
+      if (!certInView) {
+        certInView = true;
+        startAutoSlide(true); // slides immediately on scroll into view!
+      } else {
+        startAutoSlide(false);
+      }
+    } else {
+      certInView = false;
+      stopAutoSlide();
+    }
   });
-}, {threshold: 0.2});
+}, { threshold: 0.05, rootMargin: '80px 0px 80px 0px' });
 certAutoIO.observe($('#certs'));
 
 /* Lightbox helper */
@@ -1775,7 +1806,7 @@ if ($('#resumeBtn')) {
 if ($('#contactMail')) {
   $('#contactMail').addEventListener('click', e => {
     try {
-      navigator.clipboard.writeText(appData.profile?.email || 'arjunaju05@gmail.com');
+      navigator.clipboard.writeText(appData.profile?.email || 'arjun.edayth@gmail.com');
       toast('Email address copied to clipboard!');
     } catch(err){}
   });
