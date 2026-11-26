@@ -923,7 +923,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 <header>
   <a class="logo" href="#home">
     <i id="logoInitials">AEM</i>
-    <div><span id="logoName">ARJUN E M</span><small>Robotics &amp; Tech Enthusiast</small></div>
+    <div><span id="logoName">ARJUN E M</span><small id="logoHeadline">Robotics &amp; Tech Enthusiast</small></div>
   </a>
   <nav id="nav">
     <a href="#home">Home</a>
@@ -1208,132 +1208,287 @@ $('#yr').textContent = new Date().getFullYear();
    DEFAULT DATA DEFINITION
    ======================================================== */
 const defaultData = {
-  profile: {
-    name: "ARJUN E M",
-    headline: "Robotics & Technology Enthusiast",
-    bio: "BCA Graduate (Batch 2026) | Designing and building Autonomous Mobile Robots, Embedded IoT Systems, and Intelligent Software Solutions using ROS 2, AI, and Microcontrollers.",
-    about: "I’m ARJUN E M, a BCA graduate (Calicut University, 2026) and a passionate Robotics & Technology Enthusiast. I love building real-world solutions by combining Robotics, IoT, AI, and Software. My focus is on developing practical, problem-solving projects and exploring modern technologies like ROS 2, Embedded Systems, and Automation.",
-    focus: "Robotics, AI, IoT",
-    location: "Malappuram, Kerala",
-    email: "arjun.edayth@gmail.com",
-    linkedin: "https://linkedin.com/in/arjun-aju",
-    instagram: "https://instagram.com/arjun_aju",
-    avatar: "messiarjun.png",
-    roles: [
+  "skills": [
+    [
+      "Python",
+      "Py",
+      "#3776ab",
+      90
+    ],
+    [
+      "C / C++",
+      "C+",
+      "#00599c",
+      82
+    ],
+    [
+      "ROS 2",
+      "R2",
+      "#22314e",
+      85
+    ],
+    [
+      "ESP32",
+      "ES",
+      "#e7352c",
+      88
+    ],
+    [
+      "Arduino",
+      "Ar",
+      "#00979d",
+      90
+    ],
+    [
+      "Linux",
+      "Lx",
+      "#2d3748",
+      78
+    ],
+    [
+      "Flutter",
+      "Fl",
+      "#02569b",
+      70
+    ],
+    [
+      "Git/GitHub",
+      "Gh",
+      "#6e40c9",
+      82
+    ],
+    [
+      "3D design",
+      "F3D",
+      "#8b5cf6",
+      93
+    ],
+    [
+      "EMBEDDED",
+      "EM",
+      "#ff0000",
+      96
+    ]
+  ],
+  "profile": {
+    "bio": "BCA Graduate (Calicut University, 2026) | Designing and building Autonomous Mobile Robots, Embedded IoT Systems, and Intelligent Software Solutions using ROS 2, AI, and Microcontrollers.",
+    "name": "ARJUN E M",
+    "about": "I’m ARJUN E M, a BCA graduate (Calicut University, 2026) and a passionate Robotics & Technology Enthusiast. I love building real-world solutions by combining Robotics, IoT, AI, and Software. My focus is on developing practical, problem-solving projects and exploring modern technologies like ROS 2, Embedded Systems, and Automation.",
+    "email": "arjun.edayth@gmail.com",
+    "focus": "Robotics, AI, IoT",
+    "roles": [
       "Robotics & Technology Enthusiast",
       "ROS 2 Humble Developer",
       "Embedded Systems & ESP32 Builder",
       "Autonomous Mobile Robotics Explorer"
-    ]
+    ],
+    "avatar": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/profile/1795600095322-h4zn2l234cr.jpg",
+    "headline": "Robotics & Technology Enthusiast",
+    "linkedin": "www.linkedin.com/in/arjun-edayath",
+    "location": "Malappuram, Kerala",
+    "instagram": "https://www.instagram.com/_arjuuu_.__?avpt=MXA0bzNoY3poZ3FqYg=="
   },
-  projects: [
+  "projects": [
     {
-      id: "p1",
-      t: "TurtleBot Simulation",
-      d: "Autonomous navigation, SLAM mapping, and path planning using ROS 2 in the Gazebo 3D simulation environment.",
-      g: "ROS 2",
-      e: "🐢",
-      img: "project1.png",
-      tags: ["ROS 2", "Gazebo", "Nav2", "SLAM"],
-      link: "#"
+      "d": "RELIVE is a blockchain-powered organ donation management system designed to improve transparency, security, and trust in the organ donation process. The platform integrates Blockchain Technology and IPFS (InterPlanetary File System) to ensure secure, tamper-proof storage and management of organ donation records.\n\nThe system connects administrators, hospitals, police stations, donors, and recipients through a decentralized network. Hospitals can register organ donation cases, while police stations verify legal and ethical compliance. Donors and recipients can securely access verified information.\n\nWith blockchain-based record management, IPFS file storage, real-time updates, and role-based access control, RELIVE aims to reduce data manipulation, improve coordination, and streamline the organ donation process.",
+      "e": "🫀",
+      "g": "Web",
+      "t": "RELIVE – Blockchain-Based Organ Donation System",
+      "id": "p_1795624975845",
+      "img": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/projects/1795624970586-ngy74esyif.jpg",
+      "link": "#",
+      "tags": [
+        "Blockchain",
+        "IPFS",
+        "Python",
+        "Django",
+        "Flutter",
+        "Decentralized Applications",
+        "Data Security",
+        "Role-Based Access Control"
+      ]
     },
     {
-      id: "p2",
-      t: "PlotX – Drawing Plotter",
-      d: "ESP32-driven high-precision XY vector plotter with local web control interface, stepper control & G-code streaming.",
-      g: "ESP32",
-      e: "✏️",
-      img: "project2.jpg",
-      tags: ["ESP32", "Hardware", "C++", "G-Code"],
-      link: "#"
+      "d": "ARVO is a compact, portable smart pocket gadget developed using the ESP32-C3 Super Mini, combining embedded systems, wireless communication, interactive display technology and custom hardware design.\n\nThe device features a 0.96-inch SSD1306 OLED display (128×64), three physical navigation buttons, Bluetooth Low Energy (BLE), Wi-Fi connectivity and a vibration motor for haptic feedback.\n\nARVO provides smartphone connectivity with notification and incoming call alerts, an inbox for recent calls and messages, automatic Wi-Fi network reconnection, and NTP-based time synchronization. It also features a clock, date and location display, multiple animated wallpapers, and built-in mini-games including Dino Run, Bounce and Flappy Bird with saved top-three scores.\n\nAdditional features include customizable vibration patterns for notifications, calls and alarms, automatic OLED sleep after 30 seconds of inactivity, and physical-button-based device restart functionality.\n\nThe project demonstrates practical implementation of ESP32-C3 programming, Bluetooth communication, wireless networking, OLED user interface development, GPIO interfacing, haptic feedback and portable embedded hardware design.",
+      "e": "🤖",
+      "g": "IoT",
+      "t": "ARVO – Smart Pocket Gadget",
+      "id": "p_1795639738444",
+      "img": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/projects/1795677451555-qcwbmgbsikg.jpg",
+      "link": "#",
+      "tags": [
+        "ESP32-C3",
+        "Arduino IDE",
+        "Embedded C++",
+        "SSD1306 OLED",
+        "I2C",
+        "Bluetooth BLE",
+        "Wi-Fi",
+        "Smartphone Connectivity",
+        "Notification System",
+        "NTP Time Sync",
+        "Animated UI",
+        "Mini Games",
+        "Haptic Feedback",
+        "Vibration Motor",
+        "GPIO Programming",
+        "Power Management",
+        "Embedded Systems"
+      ]
     },
     {
-      id: "p3",
-      t: "3-Link Robotic Arm",
-      d: "Custom kinematic URDF robotic arm modeling, forward/inverse kinematic simulation & joint trajectory control in ROS 2.",
-      g: "ROS 2",
-      e: "🦾",
-      img: "project3.png",
-      tags: ["ROS 2", "URDF", "Kinematics", "RViz"],
-      link: "#"
+      "d": "AR GAMING is a custom-designed wireless gaming controller developed using the ESP32 DevKit V1 (ESP32-WROOM), designed to provide a seamless gaming experience on PC through Bluetooth HID connectivity.\n\nThe controller features dual analog joystick modules for precise movement and camera control, five physical tactile switches for gaming inputs, and a 0.96-inch SSD1306 OLED display for real-time device status, Bluetooth connection information and battery percentage.\n\nThe device supports wireless Bluetooth HID communication, allowing it to function as a gamepad for PC gaming, including FIFA / EA SPORTS FC. Its OLED interface displays startup animations, connection status and battery information.\n\nPowered by a rechargeable 3.7V Li-Po battery, the controller integrates a TP4056 charging module and a custom 3D-printed ergonomic enclosure. The project combines embedded programming, wireless communication, hardware interfacing and custom mechanical design to create a personalized gaming controller.",
+      "e": "🎮",
+      "g": "ESP32",
+      "t": "AR GAMING",
+      "id": "p_1795640468831",
+      "img": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/projects/1795677475268-csq4safdbu6.jpg",
+      "link": "#",
+      "tags": [
+        "ESP32",
+        "ESP32-WROOM",
+        "Arduino IDE",
+        "Bluetooth HID",
+        "Gamepad Development",
+        "Dual Analog Joystick",
+        "OLED SSD1306",
+        "Embedded C++",
+        "Wireless Communication",
+        "Li-Po Battery",
+        "TP4056",
+        "Battery Monitoring",
+        "3D Printing",
+        "Hardware Design"
+      ]
+    },
+    {
+      "d": "PLOTEX is an ESP32-based automated pen plotter designed to convert digital drawings into physical artwork using precision-controlled stepper motors and a pen-based drawing mechanism.\n\nThe system uses an ESP32 microcontroller, CNC Shield, A4988 stepper motor drivers and NEMA 17 stepper motors to control the movement of the plotting mechanism along its drawing axes. A servo motor controls the pen lifting and lowering operation, allowing the machine to reproduce images and sketches on paper.\n\nOne of the main concepts behind PLOTEX is Image-to-G-code conversion, where users can upload a sketch or image, convert it into G-code instructions and send the generated commands to the plotter for automated drawing.\n\nThe project also explores a web-based platform inspired by Tinkercad, with a vision of providing drawing conversion, microcontroller programming, circuit design and virtual simulation capabilities.\n\nPLOTEX combines robotics, CNC automation, embedded programming, motion control and software development to create an accessible automated drawing solution.",
+      "e": "🖊️",
+      "g": "IoT",
+      "t": "PLOTEX – Automated Drawing Robot",
+      "id": "p_1795640679420",
+      "img": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/projects/1795640675287-54enoenie0h.jpg",
+      "link": "#",
+      "tags": [
+        "ESP32",
+        "CNC Plotter",
+        "Robotics",
+        "CNC Shield",
+        "A4988 Driver",
+        "NEMA 17",
+        "Stepper Motors",
+        "Servo Motor",
+        "G-code",
+        "Image to G-code",
+        "Pen Plotter",
+        "Motion Control",
+        "Arduino IDE",
+        "Embedded Systems",
+        "Automation"
+      ]
     }
   ],
-  certificates: [
+  "certificates": [
     {
-      id: "c1",
-      t: "ROS 2 Fundamentals",
-      issuer: "The Construct / Open Robotics",
-      date: "2025",
-      credUrl: "https://www.theconstructsim.com/",
-      skills: ["ROS 2 Humble", "Nodes & Topics", "Services & Actions", "Launch Files"],
-      badge: "✓ Verified Credential",
-      img: ""
+      "t": "Robotics Hardware Design and Fabrication",
+      "id": "c_1795624525920",
+      "img": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/certificates/1795624521877-ws3r2i3nyw.jpg",
+      "date": "2024 (Academic Year 2023–24)",
+      "badge": "✓ Verified Credential",
+      "issuer": "Sense Think Act Robo Technologies & Ideal College for Advanced Studies",
+      "skills": [
+        "Robotics",
+        "Hardware Design",
+        "Electronics",
+        "Circuit Design",
+        "Prototyping",
+        "Fabrication"
+      ],
+      "credUrl": "#"
     },
     {
-      id: "c2",
-      t: "Embedded Systems & IoT with ESP32",
-      issuer: "Online Certification / IEEE",
-      date: "2025",
-      credUrl: "#",
-      skills: ["ESP32", "FreeRTOS", "WiFi/BLE", "Sensor Interfacing"],
-      badge: "✓ Verified Credential",
-      img: ""
+      "t": "Hackify 2.6 – Cyber Security & Ethical Hacking Workshop",
+      "id": "c_1795624598028",
+      "img": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/certificates/1795624593759-6hoci6ejbmg.jpg",
+      "date": "2026 (January 7–8, 2026)",
+      "badge": "✓ Verified Credential",
+      "issuer": "E-Hackify Cyber Security Research & Training Institute, in association with Department of Computer Application, Ideal College for Advanced Studies",
+      "skills": [
+        "Cyber Security",
+        "Ethical Hacking",
+        "Information Security",
+        "Network Security",
+        "Cyber Threat Awareness"
+      ],
+      "credUrl": "#"
     },
     {
-      id: "c3",
-      t: "Robotics & Automation (Basics to Advanced)",
-      issuer: "Advanced Training Program",
-      date: "2024",
-      credUrl: "#",
-      skills: ["Actuators", "Kinematics", "Microcontrollers", "Sensors"],
-      badge: "✓ Verified Credential",
-      img: ""
+      "t": "Python Programming Internship",
+      "id": "c_1795624662951",
+      "img": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/certificates/1795624657414-w8xea7aiona.jpg",
+      "date": "2026 (Internship: 01 January – 15 January 2026)",
+      "badge": "✓ Verified Credential",
+      "issuer": "Regional Technologies, Calicut",
+      "skills": [
+        "Python Programming",
+        "Programming Fundamentals",
+        "Problem Solving",
+        "Logical Thinking",
+        "Software Development"
+      ],
+      "credUrl": "#"
     },
     {
-      id: "c4",
-      t: "Python for Autonomous Systems",
-      issuer: "Autonomous Robotics Lab",
-      date: "2025",
-      credUrl: "#",
-      skills: ["Python 3", "OpenCV", "NumPy", "Trajectory Math"],
-      badge: "✓ Verified Credential",
-      img: ""
+      "t": "Bachelor of Computer Application (BCA) – Graduation Appreciation",
+      "id": "c_1795624738142",
+      "img": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/certificates/1795624730739-4j915bioszj.jpg",
+      "date": "May 2026",
+      "badge": "✓ Verified Credential",
+      "issuer": "Ideal College for Advanced Studies, Kadakassery",
+      "skills": [
+        "Computer Applications",
+        "Computer Science",
+        "Programming",
+        "Database Management",
+        "Software Development",
+        "Information Technology"
+      ],
+      "credUrl": "#"
+    },
+    {
+      "t": "Blockchain-Based Organ Donation – Academic Project",
+      "id": "c_1795624797721",
+      "img": "https://bgmbvtjrbfqelouaofci.supabase.co/storage/v1/object/public/portfolio-images/certificates/1795624794090-mgjl1d0ix1.jpg",
+      "date": "2026 (February 14, 2026)",
+      "badge": "✓ Verified Credential",
+      "issuer": "Regional Technologies, Calicut",
+      "skills": [
+        "Python",
+        "Django",
+        "Flutter",
+        "Blockchain Technology",
+        "Mobile App Development",
+        "Backend Development",
+        "Software Development"
+      ],
+      "credUrl": "#"
     }
   ],
-  qualifications: [
+  "qualifications": [
     {
-      icon: "🎓",
-      title: "Bachelor of Computer Applications (BCA)",
-      inst: "Calicut University | Batch 2026",
-      stat: "CGPA: 6.97",
-      isPrimary: true
+      "icon": "🎓",
+      "inst": "Calicut University | Batch 2026",
+      "stat": "CGPA: 7.0",
+      "title": "Bachelor of Computer Applications (BCA)",
+      "isPrimary": true
     },
     {
-      icon: "🏅",
-      title: "Higher Secondary Education (Computer Science)",
-      inst: "Kerala State Board | DHSE",
-      stat: "Completed",
-      isPrimary: false
-    },
-    {
-      icon: "⚙️",
-      title: "Robotics & Hardware Workshops",
-      inst: "Hands-on Technical Training & Bootcamps",
-      stat: "Certified",
-      isPrimary: false
+      "icon": "🏅",
+      "inst": "Kerala State Board",
+      "stat": "Completed",
+      "title": "Higher Secondary Education (Computer Science)",
+      "isPrimary": false
     }
-  ],
-  skills: [
-    ['Python', 'Py', '#3776ab', 90],
-    ['C / C++', 'C+', '#00599c', 82],
-    ['ROS 2', 'R2', '#22314e', 85],
-    ['ESP32', 'ES', '#e7352c', 88],
-    ['Arduino', 'Ar', '#00979d', 90],
-    ['Linux', 'Lx', '#2d3748', 78],
-    ['Java', 'Jv', '#e76f00', 70],
-    ['Kotlin', 'Kt', '#7f52ff', 65],
-    ['Flutter', 'Fl', '#02569b', 70],
-    ['Git/GitHub', 'Gh', '#6e40c9', 82]
   ]
 };
 
@@ -1420,6 +1575,7 @@ function renderProfile(){
   if ($('#footerName')) $('#footerName').textContent = name;
 
   if ($('#heroBio')) $('#heroBio').textContent = p.bio || '';
+  if ($('#logoHeadline')) $('#logoHeadline').textContent = p.headline || 'Robotics & Tech Enthusiast';
   if ($('#aboutText')) $('#aboutText').textContent = p.about || '';
   if ($('#factFocus') && p.focus) $('#factFocus').textContent = p.focus;
   if ($('#factLocation') && p.location) $('#factLocation').textContent = p.location;
@@ -1893,7 +2049,7 @@ function type(){
   }
   if (del && ci === 0) {
     del = false;
-    ri = (ri + 1) % roles.length;
+    ri = (ri + 1) % ((appData.profile?.roles?.length) || 1);
   }
   ci += del ? -1 : 1;
   setTimeout(type, del ? 28 : 65);
