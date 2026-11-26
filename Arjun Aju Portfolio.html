@@ -337,58 +337,97 @@ h1 span{
 }
 
 .pc{
-  position:relative;border-radius:22px;border:1px solid var(--line);
+  position:relative;border-radius:20px;border:1px solid var(--line);
   background:var(--card);overflow:hidden;display:flex;flex-direction:column;
-  width:360px;min-width:360px;flex-shrink:0;
-  transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .4s;
-  box-shadow:0 6px 24px rgba(0,0,0,0.25);
+  width:290px;min-width:290px;height:260px;flex-shrink:0;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s;
+  box-shadow:0 6px 20px rgba(0,0,0,0.25);
+  cursor:pointer;
 }
 .pc:hover{
-  border-color:rgba(var(--pri-rgb),0.7);
-  box-shadow:0 20px 50px var(--glow),0 0 40px rgba(var(--cyan-rgb),0.15);
-  transform:translateY(-10px) scale(1.03);
-  z-index:5;
+  border-color:rgba(var(--pri-rgb),0.85);
+  box-shadow:0 18px 45px var(--glow),0 0 35px rgba(var(--cyan-rgb),0.2);
+  transform:translateY(-8px) scale(1.02);
+  z-index:10;
 }
 .pc-img-wrap{
-  position:relative;width:100%;aspect-ratio:16/9;background:var(--bg2);
-  overflow:hidden;border-bottom:1px solid var(--line);
+  position:relative;width:100%;height:195px;background:var(--bg2);
+  overflow:hidden;border-bottom:1px solid var(--line);flex-shrink:0;
 }
 .pc-img{
   width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .4s;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .35s;
 }
-.pc:hover .pc-img{transform:scale(1.08);filter:brightness(1.1)}
+.pc:hover .pc-img{transform:scale(1.08);filter:brightness(1.08)}
 .pc-badge{
-  position:absolute;top:12px;right:12px;padding:4px 12px;border-radius:99px;
+  position:absolute;top:10px;right:10px;padding:3px 10px;border-radius:99px;
   background:rgba(18,17,43,0.85);backdrop-filter:blur(8px);
-  border:1px solid var(--pri);font-size:11px;font-weight:600;color:var(--pri2);
+  border:1px solid var(--pri);font-size:10px;font-weight:600;color:var(--pri2);
+  z-index:2;
 }
 .pc-icon{
-  position:absolute;top:12px;left:12px;width:34px;height:34px;border-radius:10px;
+  position:absolute;top:10px;left:10px;width:30px;height:30px;border-radius:8px;
   background:rgba(18,17,43,0.85);backdrop-filter:blur(8px);
-  border:1px solid var(--line);display:grid;place-items:center;font-size:16px;
+  border:1px solid var(--line);display:grid;place-items:center;font-size:14px;
+  z-index:2;
 }
 /* Animated glint on hover */
 .pc::after{
   content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;
   background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.08) 45%,rgba(255,255,255,0.14) 50%,rgba(255,255,255,0.08) 55%,transparent 60%);
-  transition:left .7s ease;pointer-events:none;z-index:2;
+  transition:left .7s ease;pointer-events:none;z-index:3;
 }
 .pc:hover::after{left:150%}
-.pc-body{padding:20px;display:flex;flex-direction:column;flex:1}
-.pc-body h3{font-size:18px;font-weight:700;margin-bottom:6px;line-height:1.3}
-.pc-body p{font-size:13px;color:var(--mut);line-height:1.6;margin-bottom:14px;flex:1}
+
+/* Bottom body: normally shows ONLY heading; on hover expands upward over the picture to open description & about */
+.pc-body{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:14px 16px;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,rgba(18,17,43,0.92) 0%,var(--card) 100%);
+  border-top:1px solid var(--line);
+  transition:background .35s ease,border-color .35s ease;
+  z-index:4;
+}
+.pc:hover .pc-body{
+  background:rgba(15,14,35,0.96);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-top-color:rgba(var(--pri-rgb),0.5);
+  box-shadow:0 -10px 25px rgba(0,0,0,0.45);
+}
+.pc-body h3{
+  font-size:16px;font-weight:700;line-height:1.3;margin:0;
+  color:var(--tx);transition:color .25s ease;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.pc:hover .pc-body h3{
+  color:var(--pri2);
+  white-space:normal;
+  overflow:visible;
+}
+
+/* Description & About Drawer: hidden normally, opens smoothly only on mouse hover */
+.pc-desc-drawer{
+  max-height:0;opacity:0;overflow:hidden;
+  transition:max-height .45s cubic-bezier(.16,1,.3,1),opacity .35s ease,margin-top .35s ease;
+}
+.pc:hover .pc-desc-drawer{
+  max-height:190px;opacity:1;margin-top:10px;
+}
+.pc-desc-drawer p{
+  font-size:12.5px;color:var(--mut);line-height:1.55;margin:0 0 12px;
+}
 .pc-foot{
   display:flex;align-items:center;justify-content:space-between;
-  padding-top:12px;border-top:1px solid var(--line);
+  padding-top:10px;border-top:1px solid rgba(255,255,255,0.08);
 }
 .pc-tag-pill{
-  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);
-  background:rgba(var(--cyan-rgb),0.1);padding:3px 10px;border-radius:6px;
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--cyan);
+  background:rgba(var(--cyan-rgb),0.12);padding:2px 8px;border-radius:5px;
 }
 .pc-view-btn{
-  font-size:12px;font-weight:600;color:var(--tx);display:inline-flex;
-  align-items:center;gap:4px;transition:color .2s;
+  font-size:11.5px;font-weight:600;color:var(--tx);display:inline-flex;
+  align-items:center;gap:4px;transition:color .2s;text-decoration:none;
 }
 .pc-view-btn:hover{color:var(--pri2)}
 
@@ -1300,12 +1339,14 @@ function renderProjects(){
       </div>
       <div class="pc-body">
         <h3>${p.t}</h3>
-        <p>${p.d}</p>
-        <div class="pc-foot">
-          <span class="pc-tag-pill">${(p.tags && p.tags[0]) || p.g}</span>
-          <a class="pc-view-btn" href="${p.link||'#'}" ${p.link&&p.link!=='#'?'target="_blank" rel="noopener"':''}>
-            View Details ↗
-          </a>
+        <div class="pc-desc-drawer">
+          <p>${p.d}</p>
+          <div class="pc-foot">
+            <span class="pc-tag-pill">${(p.tags && p.tags[0]) || p.g}</span>
+            <a class="pc-view-btn" href="${p.link||'#'}" ${p.link&&p.link!=='#'?'target="_blank" rel="noopener"':''}>
+              View Details ↗
+            </a>
+          </div>
         </div>
       </div>
     </article>
