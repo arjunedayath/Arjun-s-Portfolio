@@ -326,6 +326,15 @@ h1 span{
   animation:projScroll var(--rail-dur,40s) linear infinite;
   width:max-content;
 }
+/* When mouse pointer points to any project card, pause sliding; resume when pointer moves off */
+.proj-rail:has(.pc:hover),
+.proj-rail.is-paused{
+  animation-play-state:paused;
+}
+.proj-showcase:has(.pc:hover) ~ .proj-progress .proj-progress-bar,
+.proj-progress-bar.is-paused{
+  animation-play-state:paused;
+}
 
 .pc{
   position:relative;border-radius:22px;border:1px solid var(--line);
@@ -1330,6 +1339,21 @@ $('#pgrid').addEventListener('click', e => {
     const img = imgWrap.querySelector('.pc-img');
     const title = imgWrap.closest('.pc').querySelector('h3').textContent;
     openLightbox(img.src, title, 'Project Preview');
+  }
+});
+
+/* Pause sliding when mouse pointer points to any project card, resume when pointer leaves it */
+$('#pgrid').addEventListener('mouseover', e => {
+  if (e.target.closest('.pc')) {
+    $('#pgrid').classList.add('is-paused');
+    $('.proj-progress-bar')?.classList.add('is-paused');
+  }
+});
+$('#pgrid').addEventListener('mouseout', e => {
+  const card = e.target.closest('.pc');
+  if (card && (!e.relatedTarget || !card.contains(e.relatedTarget))) {
+    $('#pgrid').classList.remove('is-paused');
+    $('.proj-progress-bar')?.classList.remove('is-paused');
   }
 });
 
