@@ -750,6 +750,99 @@ footer b{color:var(--tx)}
 }
 .lb-close:hover{transform:scale(1.1);border-color:var(--pri)}
 
+/* Project Full Details Square Modal with Zoom Animation */
+#projectModal{
+  position:fixed;inset:0;background:rgba(5,4,20,0.85);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  z-index:200;display:none;align-items:center;justify-content:center;
+  padding:20px;opacity:0;transition:opacity .3s ease;
+}
+#projectModal.open{display:flex;opacity:1}
+
+.pm-box{
+  position:relative;width:min(520px,94vw);aspect-ratio:1/1;max-height:90vh;
+  background:var(--card);border:1px solid rgba(var(--pri-rgb),0.5);
+  border-radius:24px;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,0.9),0 0 50px var(--glow),0 0 35px rgba(var(--cyan-rgb),0.25);
+  display:flex;flex-direction:column;
+  transform:scale(0.8) translateY(20px);opacity:0;
+  transition:transform .38s cubic-bezier(.16,1,.3,1),opacity .3s ease;
+}
+#projectModal.open .pm-box{transform:scale(1) translateY(0);opacity:1}
+
+.pm-close{
+  position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;
+  background:rgba(18,17,43,0.88);backdrop-filter:blur(8px);border:1px solid var(--line);
+  color:#fff;font-size:18px;display:grid;place-items:center;cursor:pointer;z-index:10;
+  transition:transform .2s,border-color .2s,background .2s;
+}
+.pm-close:hover{
+  transform:scale(1.12) rotate(90deg);
+  border-color:var(--pri);background:rgba(var(--pri-rgb),0.3);
+}
+
+.pm-img-wrap{
+  position:relative;width:100%;height:48%;background:#090818;
+  overflow:hidden;border-bottom:1px solid var(--line);flex-shrink:0;
+}
+.pm-img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(1.08);transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+#projectModal.open .pm-img{transform:scale(1)}
+
+.pm-badge{
+  position:absolute;top:14px;left:14px;padding:4px 12px;border-radius:99px;
+  background:rgba(18,17,43,0.88);backdrop-filter:blur(8px);
+  border:1px solid var(--pri);font-size:11px;font-weight:700;color:var(--pri2);
+  z-index:2;
+}
+.pm-icon{
+  position:absolute;bottom:12px;left:14px;width:36px;height:36px;border-radius:10px;
+  background:rgba(18,17,43,0.88);backdrop-filter:blur(8px);
+  border:1px solid var(--line);display:grid;place-items:center;font-size:18px;
+  z-index:2;
+}
+
+.pm-body{
+  height:52%;padding:16px 20px 18px;display:flex;flex-direction:column;
+  justify-content:space-between;gap:10px;overflow-y:auto;
+  background:linear-gradient(180deg,rgba(18,17,43,0.96) 0%,var(--card) 100%);
+}
+.pm-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+}
+.pm-head h3{
+  font-size:20px;font-weight:800;color:var(--tx);line-height:1.25;margin:0;
+}
+.pm-cat{
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);
+  background:rgba(var(--cyan-rgb),0.12);padding:2px 8px;border-radius:5px;
+  flex-shrink:0;
+}
+.pm-desc{
+  font-size:13px;color:var(--mut);line-height:1.6;margin:0;
+}
+.pm-tech-wrap{
+  display:flex;flex-direction:column;gap:6px;
+}
+.pm-tags{
+  display:flex;flex-wrap:wrap;gap:6px;
+}
+.pm-tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--cyan);background:rgba(var(--cyan-rgb),0.12);
+  border:1px solid rgba(var(--cyan-rgb),0.25);
+  padding:3px 9px;border-radius:6px;
+}
+.pm-actions{
+  margin-top:4px;
+}
+.pm-btn{
+  width:100%;justify-content:center;font-size:13px;padding:10px 16px;
+  border-radius:12px;display:inline-flex;align-items:center;gap:6px;
+}
+
 /* Dialogs (Admin Auth & Quick Edit) */
 dialog{
   margin:auto;border:1px solid var(--pri);border-radius:22px;
@@ -1039,6 +1132,33 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
         <small id="lbSub" style="color:var(--mut)">Full Resolution Image</small>
       </div>
       <a id="lbDownload" class="pill" href="" download="certificate.png" style="font-size:12px">⬇ Download</a>
+    </div>
+  </div>
+</div>
+
+<!-- Project Full Details Square Modal -->
+<div id="projectModal" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+  <div class="pm-box">
+    <button class="pm-close" id="pmClose" aria-label="Close project details">✕</button>
+    <div class="pm-img-wrap">
+      <img id="pmImg" class="pm-img" src="" alt="Project Image">
+      <span class="pm-badge" id="pmBadge"></span>
+      <span class="pm-icon" id="pmIcon"></span>
+    </div>
+    <div class="pm-body">
+      <div class="pm-head">
+        <h3 id="pmTitle"></h3>
+        <span class="pm-cat" id="pmCategory"></span>
+      </div>
+      <p id="pmDesc" class="pm-desc"></p>
+      <div class="pm-tech-wrap">
+        <div id="pmTags" class="pm-tags"></div>
+      </div>
+      <div class="pm-actions">
+        <a id="pmLink" class="btn fill pm-btn" href="#" target="_blank" rel="noopener">
+          View Project Details ↗
+        </a>
+      </div>
     </div>
   </div>
 </div>
@@ -1359,7 +1479,7 @@ function renderProjects(){
   const filtered = projs.filter(p => projectFilter === 'All' || p.g === projectFilter);
   
   const cardHTML = (p,i) => `
-    <article class="pc" data-id="${p.id||i}">
+    <article class="pc" data-id="${p.id||i}" title="Click to view full project details">
       <div class="pc-img-wrap">
         <img class="pc-img" src="${p.img || 'project1.png'}" alt="${p.t}" onerror="this.onerror=null;this.src='project1.png';" loading="lazy">
         <span class="pc-badge">${p.g}</span>
@@ -1371,9 +1491,7 @@ function renderProjects(){
           <p>${p.d}</p>
           <div class="pc-foot">
             <span class="pc-tag-pill">${(p.tags && p.tags[0]) || p.g}</span>
-            <a class="pc-view-btn" href="${p.link||'#'}" ${p.link&&p.link!=='#'?'target="_blank" rel="noopener"':''}>
-              View Details ↗
-            </a>
+            <span class="pc-view-btn">View Details ↗</span>
           </div>
         </div>
       </div>
@@ -1401,13 +1519,56 @@ $('#filters').addEventListener('click', e => {
   }
 });
 
-/* Click project image to open in lightbox */
+/* Click project card to open full details neatly in square ratio with zoom animation */
 $('#pgrid').addEventListener('click', e => {
-  const imgWrap = e.target.closest('.pc-img-wrap');
-  if (imgWrap){
-    const img = imgWrap.querySelector('.pc-img');
-    const title = imgWrap.closest('.pc').querySelector('h3').textContent;
-    openLightbox(img.src, title, 'Project Preview');
+  const card = e.target.closest('.pc');
+  if (!card) return;
+
+  const id = card.dataset.id;
+  const projs = appData.projects || [];
+  const project = projs.find((p, i) => (p.id ? p.id == id : i == id)) || projs[id] || projs[0];
+  if (project) {
+    openProjectModal(project);
+  }
+});
+
+function openProjectModal(p){
+  $('#pmImg').src = p.img || 'project1.png';
+  $('#pmImg').onerror = function(){ this.onerror = null; this.src = 'project1.png'; };
+  $('#pmBadge').textContent = p.g || 'Project';
+  $('#pmIcon').textContent = p.e || '🤖';
+  $('#pmTitle').textContent = p.t || 'Project Title';
+  $('#pmCategory').textContent = p.g || 'Engineering';
+  $('#pmDesc').textContent = p.d || 'No description available.';
+
+  const tags = (p.tags && p.tags.length) ? p.tags : [p.g || 'Engineering'];
+  $('#pmTags').innerHTML = tags.map(t => `<span class="pm-tag">${t}</span>`).join('');
+
+  const linkBtn = $('#pmLink');
+  if (p.link && p.link !== '#' && p.link.trim() !== '') {
+    linkBtn.href = p.link;
+    linkBtn.style.display = 'inline-flex';
+    linkBtn.textContent = 'View Project ↗';
+  } else {
+    linkBtn.style.display = 'none';
+  }
+
+  $('#projectModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProjectModal(){
+  $('#projectModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+$('#pmClose').addEventListener('click', closeProjectModal);
+$('#projectModal').addEventListener('click', e => {
+  if (e.target === $('#projectModal')) closeProjectModal();
+});
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('#projectModal')?.classList.contains('open')) {
+    closeProjectModal();
   }
 });
 
