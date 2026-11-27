@@ -471,6 +471,7 @@ dialog[open]{animation:pop .3s cubic-bezier(.16,1,.3,1)}
             <div>📷 Click or Drag to Upload Profile Image</div>
             <input type="file" id="avatarFileInput" accept="image/*" style="display:none">
             <img id="avatarPreview" class="upload-preview" alt="Avatar Preview">
+            <button type="button" id="avatarRemoveBtn" class="btn btn-sec btn-sm" style="display:none;margin-top:8px;color:#ef4444;font-size:0.8rem;padding:4px 10px">✕ Remove Avatar</button>
           </div>
         </div>
 
@@ -506,6 +507,9 @@ dialog[open]{animation:pop .3s cubic-bezier(.16,1,.3,1)}
         <div style="display:flex;flex-direction:column;gap:16px;max-width:500px">
           <button class="btn btn-pri" id="downloadHtmlBig">
             📥 Download Cloud-Connected Portfolio HTML
+          </button>
+          <button class="btn btn-sec" id="cleanStorageBtn" style="border-color:rgba(239,68,68,0.4);color:#ff6b6b">
+            🧹 Clean Unused Storage Files (Free Storage Space)
           </button>
           <button class="btn btn-sec" id="exportJsonBtn">
             💾 Export JSON Data Backup
@@ -572,6 +576,7 @@ dialog[open]{animation:pop .3s cubic-bezier(.16,1,.3,1)}
         <div>📄 Click or Drag to Upload Certificate Image</div>
         <input type="file" id="certFileInput" accept="image/*" style="display:none">
         <img id="certPreview" class="upload-preview" alt="Certificate Preview">
+        <button type="button" id="certRemoveImgBtn" class="btn btn-sec btn-sm" style="display:none;margin-top:8px;color:#ef4444;font-size:0.8rem;padding:4px 10px">✕ Remove Image</button>
       </div>
       <input type="text" id="certImgUrl" placeholder="Or enter image filename/URL (e.g. cert.png)" style="margin-top:6px">
     </div>
@@ -633,6 +638,7 @@ dialog[open]{animation:pop .3s cubic-bezier(.16,1,.3,1)}
         <div>🖼️ Click or Drag to Upload Project Image</div>
         <input type="file" id="projFileInput" accept="image/*" style="display:none">
         <img id="projPreview" class="upload-preview" alt="Project Preview">
+        <button type="button" id="projRemoveImgBtn" class="btn btn-sec btn-sm" style="display:none;margin-top:8px;color:#ef4444;font-size:0.8rem;padding:4px 10px">✕ Remove Image</button>
       </div>
       <input type="text" id="projImgUrl" placeholder="Or enter local image path (e.g. project1.png)" style="margin-top:6px">
     </div>
@@ -732,6 +738,133 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_lAz45FnUEDir0y7mLI3oqw_mHu2KAi7
 const ADMIN_USER_ID = "07307e48-e020-4389-a474-89ab52f22237";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 const STORAGE_BUCKET = 'portfolio-images';
+
+/* Storage deletion and URL resolution helpers */
+function extractStoragePath(url, bucket = STORAGE_BUCKET) {
+  if (!url || typeof url !== 'string') return null;
+  const cleanUrl = url.trim();
+  const prefixes = [
+    `/storage/v1/object/public/${bucket}/`,
+    `/storage/v1/object/authenticated/${bucket}/`,
+    `/storage/v1/object/sign/${bucket}/`,
+    `/${bucket}/`
+  ];
+  for (const prefix of prefixes) {
+    const idx = cleanUrl.indexOf(prefix);
+    if (idx !== -1) {
+      const rest = cleanUrl.substring(idx + prefix.length).split('?')[0];
+      if (rest) return decodeURIComponent(rest);
+    }
+  }
+  if (/^(certificates|projects|profile|resumes|migrated)\/[^/\s]+\.[a-zA-Z0-9]+$/.test(cleanUrl)) {
+    return cleanUrl;
+  }
+  return null;
+}
+
+async function deleteFromStorage(urlOrPath, bucket = STORAGE_BUCKET) {
+  if (!urlOrPath) return false;
+  const path = extractStoragePath(urlOrPath, bucket);
+  if (!path) return false;
+  try {
+    await ensureValidAdminSession();
+    console.log('[Storage Cleanup] Deleting file from Supabase storage:', path);
+    const { data, error } = await supabaseClient.storage.from(bucket).remove([path]);
+    if (error) {
+      console.warn('[Storage Cleanup] Notice removing file:', error);
+      return false;
+    }
+    console.log('[Storage Cleanup] Deleted successfully:', path, data);
+    return true;
+  } catch (err) {
+    console.warn('[Storage Cleanup] Error removing file:', err);
+    return false;
+  }
+}
+
+async function deleteMultipleFromStorage(urlsOrPaths, bucket = STORAGE_BUCKET) {
+  if (!Array.isArray(urlsOrPaths) || !urlsOrPaths.length) return 0;
+  const paths = urlsOrPaths.map(u => extractStoragePath(u, bucket)).filter(Boolean);
+  if (!paths.length) return 0;
+  const uniquePaths = [...new Set(paths)];
+  try {
+    await ensureValidAdminSession();
+    console.log('[Storage Cleanup] Deleting files from Supabase storage:', uniquePaths);
+    const { data, error } = await supabaseClient.storage.from(bucket).remove(uniquePaths);
+    if (error) {
+      console.warn('[Storage Cleanup] Notice removing files:', error);
+      return 0;
+    }
+    console.log('[Storage Cleanup] Deleted files successfully:', uniquePaths);
+    return uniquePaths.length;
+  } catch (err) {
+    console.warn('[Storage Cleanup] Error removing files:', err);
+    return 0;
+  }
+}
+
+async function cleanOrphanedStorageFiles(silent = false) {
+  try {
+    await ensureValidAdminSession();
+    if (!silent) showToast('Scanning Supabase storage for unused files…');
+    
+    const activePaths = new Set();
+    if (appData.profile) {
+      if (appData.profile.avatar) {
+        const p = extractStoragePath(appData.profile.avatar);
+        if (p) activePaths.add(p);
+      }
+      if (appData.profile.resumeUrl) {
+        const p = extractStoragePath(appData.profile.resumeUrl);
+        if (p) activePaths.add(p);
+      }
+    }
+    for (const proj of (appData.projects || [])) {
+      if (proj.img) {
+        const p = extractStoragePath(proj.img);
+        if (p) activePaths.add(p);
+      }
+    }
+    for (const cert of (appData.certificates || [])) {
+      if (cert.img) {
+        const p = extractStoragePath(cert.img);
+        if (p) activePaths.add(p);
+      }
+    }
+
+    const folders = ['certificates', 'projects', 'profile', 'resumes', 'migrated'];
+    const orphansToDelete = [];
+
+    for (const folder of folders) {
+      const { data: files, error } = await supabaseClient.storage.from(STORAGE_BUCKET).list(folder, {
+        limit: 100,
+        offset: 0
+      });
+      if (error || !files) continue;
+      for (const file of files) {
+        if (!file.name || file.name === '.emptyFolderPlaceholder') continue;
+        const filePath = `${folder}/${file.name}`;
+        if (!activePaths.has(filePath)) {
+          orphansToDelete.push(filePath);
+        }
+      }
+    }
+
+    if (orphansToDelete.length > 0) {
+      console.log('[Storage Cleaner] Found orphans to remove:', orphansToDelete);
+      const deletedCount = await deleteMultipleFromStorage(orphansToDelete);
+      if (!silent) showToast(`Cleaned ${deletedCount} unused file(s) from Supabase Storage.`);
+      return deletedCount;
+    } else {
+      if (!silent) showToast('Storage is clean! No orphaned files found.');
+      return 0;
+    }
+  } catch (err) {
+    console.warn('[Storage Cleaner] Error cleaning storage:', err);
+    if (!silent) showToast('Notice during storage clean: ' + (err.message || err));
+    return 0;
+  }
+}
 
 const STORAGE_KEY = 'arjun_portfolio_v2';
 const broadcast = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('arjun_portfolio_sync') : null;
@@ -1324,21 +1457,49 @@ const certFileInput = $('#certFileInput');
 const certUploadBox = $('#certUploadBox');
 const certPreview = $('#certPreview');
 
-certUploadBox.onclick = () => certFileInput.click();
+certUploadBox.onclick = (e) => {
+  if (e.target.closest('#certRemoveImgBtn')) return;
+  certFileInput.click();
+};
 certFileInput.onchange = async () => {
   if (certFileInput.files && certFileInput.files[0]) {
     try {
+      showToast('Uploading certificate image…');
       const compressed = await compressImage(certFileInput.files[0]);
       const publicUrl = await uploadDataUrlToStorage(compressed, 'certificates');
+      
+      const prevStagedUrl = $('#certImgUrl').value.trim();
+      if (prevStagedUrl && prevStagedUrl !== publicUrl) {
+        const isSaved = (appData.certificates || []).some(c => c.img === prevStagedUrl);
+        if (!isSaved) deleteFromStorage(prevStagedUrl);
+      }
+
       certPreview.src = publicUrl;
       certPreview.style.display = 'block';
+      const remBtn = $('#certRemoveImgBtn');
+      if (remBtn) remBtn.style.display = 'inline-flex';
       $('#certImgUrl').value = publicUrl;
       showToast('Certificate image uploaded to Supabase Storage.');
     } catch(err) {
-      showToast('Error reading image');
+      showToast('Error uploading image');
     }
   }
 };
+
+if ($('#certRemoveImgBtn')) {
+  $('#certRemoveImgBtn').onclick = (e) => {
+    e.stopPropagation();
+    const currUrl = $('#certImgUrl').value.trim();
+    const isSaved = (appData.certificates || []).some(c => c.img === currUrl);
+    if (!isSaved && currUrl) deleteFromStorage(currUrl);
+    $('#certImgUrl').value = '';
+    certPreview.src = '';
+    certPreview.style.display = 'none';
+    $('#certRemoveImgBtn').style.display = 'none';
+    if (certFileInput) certFileInput.value = '';
+    showToast('Image removed.');
+  };
+}
 
 function renderCerts(){
   const certs = appData.certificates || [];
@@ -1389,9 +1550,11 @@ function openCertModal(cert = null){
   if (cert && cert.img && cert.img.length > 10) {
     certPreview.src = cert.img;
     certPreview.style.display = 'block';
+    if ($('#certRemoveImgBtn')) $('#certRemoveImgBtn').style.display = 'inline-flex';
   } else {
     certPreview.src = '';
     certPreview.style.display = 'none';
+    if ($('#certRemoveImgBtn')) $('#certRemoveImgBtn').style.display = 'none';
   }
   certDlg.showModal();
 }
@@ -1399,9 +1562,10 @@ function openCertModal(cert = null){
 $('#addCertBtn').onclick = () => openCertModal();
 $('#certCancel').onclick = () => certDlg.close();
 
-$('#certForm').onsubmit = e => {
+$('#certForm').onsubmit = async e => {
   e.preventDefault();
   const editId = $('#certEditId').value;
+  const newImg = $('#certImgUrl').value.trim();
   const certData = {
     id: editId || 'c_' + Date.now(),
     t: $('#certTitle').value.trim(),
@@ -1410,14 +1574,21 @@ $('#certForm').onsubmit = e => {
     credUrl: $('#certUrl').value.trim() || '#',
     badge: $('#certBadge').value.trim() || '✓ Verified Credential',
     skills: $('#certSkills').value.split(',').map(s=>s.trim()).filter(Boolean),
-    img: $('#certImgUrl').value.trim()
+    img: newImg
   };
 
   if (!appData.certificates) appData.certificates = [];
   if (editId) {
     const idx = appData.certificates.findIndex(c => (c.id === editId || c.t === editId));
-    if (idx !== -1) appData.certificates[idx] = certData;
-    else appData.certificates.push(certData);
+    if (idx !== -1) {
+      const oldImg = appData.certificates[idx].img;
+      if (oldImg && oldImg !== newImg) {
+        deleteFromStorage(oldImg);
+      }
+      appData.certificates[idx] = certData;
+    } else {
+      appData.certificates.push(certData);
+    }
   } else {
     appData.certificates.push(certData);
   }
@@ -1432,11 +1603,16 @@ window.editCert = id => {
   if (c) openCertModal(c);
 };
 
-window.deleteCert = id => {
-  if (confirm('Delete this certificate?')) {
-    appData.certificates = appData.certificates.filter((item, i) => item.id !== id && i != id);
+window.deleteCert = async id => {
+  const certToDelete = (appData.certificates || []).find((item, i) => item.id === id || i == id);
+  if (confirm(`Delete certificate "${certToDelete?.t || 'Selected'}"?`)) {
+    if (certToDelete?.img) {
+      await deleteFromStorage(certToDelete.img);
+    }
+    appData.certificates = (appData.certificates || []).filter((item, i) => item.id !== id && i != id);
     saveData();
     renderCerts();
+    showToast('Certificate and storage image deleted.');
   }
 };
 
@@ -1459,21 +1635,49 @@ const projFileInput = $('#projFileInput');
 const projUploadBox = $('#projUploadBox');
 const projPreview = $('#projPreview');
 
-projUploadBox.onclick = () => projFileInput.click();
+projUploadBox.onclick = (e) => {
+  if (e.target.closest('#projRemoveImgBtn')) return;
+  projFileInput.click();
+};
 projFileInput.onchange = async () => {
   if (projFileInput.files && projFileInput.files[0]) {
     try {
+      showToast('Uploading project image…');
       const compressed = await compressImage(projFileInput.files[0]);
       const publicUrl = await uploadDataUrlToStorage(compressed, 'projects');
+      
+      const prevStagedUrl = $('#projImgUrl').value.trim();
+      if (prevStagedUrl && prevStagedUrl !== publicUrl && prevStagedUrl !== 'project1.png') {
+        const isSaved = (appData.projects || []).some(p => p.img === prevStagedUrl);
+        if (!isSaved) deleteFromStorage(prevStagedUrl);
+      }
+
       projPreview.src = publicUrl;
       projPreview.style.display = 'block';
+      const remBtn = $('#projRemoveImgBtn');
+      if (remBtn) remBtn.style.display = 'inline-flex';
       $('#projImgUrl').value = publicUrl;
       showToast('Project image uploaded to Supabase Storage.');
     } catch(err) {
-      showToast('Error processing image');
+      showToast('Error uploading image');
     }
   }
 };
+
+if ($('#projRemoveImgBtn')) {
+  $('#projRemoveImgBtn').onclick = (e) => {
+    e.stopPropagation();
+    const currUrl = $('#projImgUrl').value.trim();
+    const isSaved = (appData.projects || []).some(p => p.img === currUrl);
+    if (!isSaved && currUrl && currUrl !== 'project1.png') deleteFromStorage(currUrl);
+    $('#projImgUrl').value = 'project1.png';
+    projPreview.src = 'project1.png';
+    projPreview.style.display = 'block';
+    $('#projRemoveImgBtn').style.display = 'none';
+    if (projFileInput) projFileInput.value = '';
+    showToast('Image removed.');
+  };
+}
 
 function renderProjects(){
   const projs = appData.projects || [];
@@ -1515,12 +1719,14 @@ function openProjModal(proj = null){
   $('#projLink').value = proj ? (proj.link || '#') : '#';
   $('#projImgUrl').value = proj ? (proj.img || 'project1.png') : 'project1.png';
 
-  if (proj && proj.img && proj.img.length > 5) {
+  if (proj && proj.img && proj.img.length > 5 && proj.img !== 'project1.png') {
     projPreview.src = proj.img;
     projPreview.style.display = 'block';
+    if ($('#projRemoveImgBtn')) $('#projRemoveImgBtn').style.display = 'inline-flex';
   } else {
-    projPreview.src = 'project1.png';
+    projPreview.src = (proj && proj.img) ? proj.img : 'project1.png';
     projPreview.style.display = 'block';
+    if ($('#projRemoveImgBtn')) $('#projRemoveImgBtn').style.display = 'none';
   }
   projDlg.showModal();
 }
@@ -1528,9 +1734,10 @@ function openProjModal(proj = null){
 $('#addProjBtn').onclick = () => openProjModal();
 $('#projCancel').onclick = () => projDlg.close();
 
-$('#projForm').onsubmit = e => {
+$('#projForm').onsubmit = async e => {
   e.preventDefault();
   const editId = $('#projEditId').value;
+  const newImg = $('#projImgUrl').value.trim() || 'project1.png';
   const projData = {
     id: editId || 'p_' + Date.now(),
     t: $('#projTitle').value.trim(),
@@ -1539,14 +1746,21 @@ $('#projForm').onsubmit = e => {
     d: $('#projDesc').value.trim(),
     tags: $('#projTags').value.split(',').map(s=>s.trim()).filter(Boolean),
     link: $('#projLink').value.trim() || '#',
-    img: $('#projImgUrl').value.trim() || 'project1.png'
+    img: newImg
   };
 
   if (!appData.projects) appData.projects = [];
   if (editId) {
     const idx = appData.projects.findIndex(p => p.id === editId);
-    if (idx !== -1) appData.projects[idx] = projData;
-    else appData.projects.push(projData);
+    if (idx !== -1) {
+      const oldImg = appData.projects[idx].img;
+      if (oldImg && oldImg !== newImg) {
+        deleteFromStorage(oldImg);
+      }
+      appData.projects[idx] = projData;
+    } else {
+      appData.projects.push(projData);
+    }
   } else {
     appData.projects.push(projData);
   }
@@ -1561,11 +1775,16 @@ window.editProj = id => {
   if (p) openProjModal(p);
 };
 
-window.deleteProj = id => {
-  if (confirm('Delete this project?')) {
-    appData.projects = appData.projects.filter((item, i) => item.id !== id && i != id);
+window.deleteProj = async id => {
+  const projToDelete = (appData.projects || []).find((item, i) => item.id === id || i == id);
+  if (confirm(`Delete project "${projToDelete?.t || 'Selected'}"?`)) {
+    if (projToDelete?.img) {
+      await deleteFromStorage(projToDelete.img);
+    }
+    appData.projects = (appData.projects || []).filter((item, i) => item.id !== id && i != id);
     saveData();
     renderProjects();
+    showToast('Project and storage image deleted.');
   }
 };
 
@@ -1732,22 +1951,51 @@ const avatarUploadBox = $('#avatarUploadBox');
 const avatarFileInput = $('#avatarFileInput');
 const avatarPreview = $('#avatarPreview');
 
-avatarUploadBox.onclick = () => avatarFileInput.click();
+avatarUploadBox.onclick = (e) => {
+  if (e.target.closest('#avatarRemoveBtn')) return;
+  avatarFileInput.click();
+};
 avatarFileInput.onchange = async () => {
   if (avatarFileInput.files && avatarFileInput.files[0]) {
     try {
+      showToast('Uploading profile image…');
       const compressed = await compressImage(avatarFileInput.files[0], 600, 0.85);
       const publicUrl = await uploadDataUrlToStorage(compressed, 'profile');
+      
+      if (!appData.profile) appData.profile = {};
+      const oldAvatar = appData.profile.avatar;
+      if (oldAvatar && oldAvatar !== publicUrl) {
+        deleteFromStorage(oldAvatar);
+      }
+      appData.profile.avatar = publicUrl;
       avatarPreview.src = publicUrl;
       avatarPreview.style.display = 'block';
-      if (!appData.profile) appData.profile = {};
-      appData.profile.avatar = publicUrl;
-      showToast('Avatar uploaded to Supabase Storage. Save your profile to publish it.');
+      if ($('#avatarRemoveBtn')) $('#avatarRemoveBtn').style.display = 'inline-flex';
+      saveData();
+      showToast('Profile image updated and old image deleted from Supabase.');
     } catch(e){
       showToast('Error uploading avatar');
     }
   }
 };
+
+if ($('#avatarRemoveBtn')) {
+  $('#avatarRemoveBtn').onclick = (e) => {
+    e.stopPropagation();
+    if (confirm('Remove profile image?')) {
+      if (appData.profile && appData.profile.avatar) {
+        deleteFromStorage(appData.profile.avatar);
+        delete appData.profile.avatar;
+      }
+      avatarPreview.src = '';
+      avatarPreview.style.display = 'none';
+      $('#avatarRemoveBtn').style.display = 'none';
+      if (avatarFileInput) avatarFileInput.value = '';
+      saveData();
+      showToast('Profile image removed and deleted from Supabase storage.');
+    }
+  };
+}
 
 function renderProfileForm(){
   const p = appData.profile || defaultData.profile;
@@ -1950,11 +2198,14 @@ if (resumeUploadBox && resumeFileInput) {
         });
       }
       if (!appData.profile) appData.profile = {};
+      if (appData.profile && appData.profile.resumeUrl && appData.profile.resumeUrl !== resumeUrl) {
+        deleteFromStorage(appData.profile.resumeUrl);
+      }
       appData.profile.resumeUrl = resumeUrl;
       appData.profile.resumeName = file.name;
       updateResumeUI();
       saveData();
-      showToast('✓ Resume uploaded successfully!');
+      showToast('✓ Resume uploaded and old resume cleaned from Supabase storage!');
     } catch(err) {
       console.error('Resume upload error:', err);
       showToast('Upload error: ' + (err.message || err));
@@ -1963,21 +2214,29 @@ if (resumeUploadBox && resumeFileInput) {
 }
 
 if (resumeRemoveBtn) {
-  resumeRemoveBtn.onclick = (e) => {
+  resumeRemoveBtn.onclick = async (e) => {
     e.stopPropagation();
     if (confirm('Remove current uploaded resume?')) {
       if (appData.profile) {
+        if (appData.profile.resumeUrl) {
+          await deleteFromStorage(appData.profile.resumeUrl);
+        }
         delete appData.profile.resumeUrl;
         delete appData.profile.resumeName;
       }
       if (resumeFileInput) resumeFileInput.value = '';
       updateResumeUI();
       saveData();
-      showToast('Resume removed.');
+      showToast('Resume removed and deleted from Supabase storage.');
     }
   };
 }
 
+</script>
+<script>
+if ($('#cleanStorageBtn')) {
+  $('#cleanStorageBtn').onclick = () => cleanOrphanedStorageFiles(false);
+}
 </script>
 </body>
 </html>
