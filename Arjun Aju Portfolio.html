@@ -913,7 +913,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 
 
 /* ========================================================
-   CINEMATIC TACTICAL DRONE PATROL INTRO (FLUID 3D FLIGHT)
+   CINEMATIC TACTICAL DRONE PATROL INTRO (OPTICAL LENS ZOOM)
    ======================================================== */
 #droneIntro {
   position: fixed;
@@ -926,7 +926,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   justify-content: center;
   perspective: 1200px;
   perspective-origin: 50% 50%;
-  transition: opacity 0.75s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.75s;
+  transition: opacity 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.65s;
 }
 #droneIntro.fade-out {
   opacity: 0;
@@ -955,7 +955,8 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   position: absolute;
   width: min(640px, 86vw);
   max-width: 680px;
-  transform-origin: center center;
+  /* Transform origin centered exactly at the camera lens: 44.2% X, 60.5% Y */
+  transform-origin: 44.2% 60.5%;
   transform-style: preserve-3d;
   will-change: transform, opacity;
   display: flex;
@@ -1003,7 +1004,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 .motor-halo.br { right: 28%; top: 22%; transform: scale(0.65); }
 .drone-scanner-beam {
   position: absolute;
-  top: 50%;
+  top: 60.5%;
   left: 50%;
   width: 140%;
   height: 2px;
@@ -1019,9 +1020,26 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   animation: scanSweep 1.4s ease-in-out infinite alternate;
 }
 @keyframes scanSweep {
-  0% { transform: translate(-50%, -80px) scaleX(0.9); opacity: 0.5; }
-  50% { transform: translate(-50%, 20px) scaleX(1.1); opacity: 1; }
-  100% { transform: translate(-50%, 120px) scaleX(0.95); opacity: 0.6; }
+  0% { transform: translate(-50%, -60px) scaleX(0.9); opacity: 0.5; }
+  50% { transform: translate(-50%, 15px) scaleX(1.1); opacity: 1; }
+  100% { transform: translate(-50%, 90px) scaleX(0.95); opacity: 0.6; }
+}
+.camera-iris-bloom {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  top: 60.5%;
+  left: 44.2%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid rgba(244, 63, 94, 0.8);
+  box-shadow: 0 0 35px #f43f5e, inset 0 0 25px rgba(249, 115, 22, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.camera-iris-bloom.active {
+  opacity: 1;
 }
 .drone-hud {
   position: absolute;
@@ -1116,34 +1134,36 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 }
 .hud-target-box {
   position: absolute;
-  width: 220px;
-  height: 180px;
-  border: 1px dashed rgba(244, 63, 94, 0.4);
-  border-radius: 16px;
+  width: 140px;
+  height: 140px;
+  border: 1px dashed rgba(244, 63, 94, 0.55);
+  border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.35s ease;
   z-index: 4;
+  box-shadow: 0 0 20px rgba(244, 63, 94, 0.25);
 }
 .hud-target-box.active {
   opacity: 1;
 }
 .hud-target-box .corner {
   position: absolute;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-color: #f43f5e;
   border-style: solid;
 }
-.hud-target-box .corner.tl { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
-.hud-target-box .corner.tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
-.hud-target-box .corner.bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
-.hud-target-box .corner.br { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+.hud-target-box .corner.tl { top: 6px; left: 6px; border-width: 2px 0 0 2px; }
+.hud-target-box .corner.tr { top: 6px; right: 6px; border-width: 2px 2px 0 0; }
+.hud-target-box .corner.bl { bottom: 6px; left: 6px; border-width: 0 0 2px 2px; }
+.hud-target-box .corner.br { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
 .target-lbl {
   position: absolute;
-  top: -24px;
-  left: 0;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 11px;
   font-weight: 700;
   color: #f43f5e;
@@ -1162,7 +1182,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   <div class="hud-target-box" id="hudTarget">
     <div class="corner tl"></div><div class="corner tr"></div>
     <div class="corner bl"></div><div class="corner br"></div>
-    <span class="target-lbl" id="targetLbl">SYS://SCANNING AIRSPACE...</span>
+    <span class="target-lbl" id="targetLbl">OPTICAL SENSOR LOCK</span>
   </div>
 
   <div class="drone-stage">
@@ -1179,6 +1199,9 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 
       <!-- Laser Scan Beam -->
       <div class="drone-scanner-beam" id="scannerBeam"></div>
+
+      <!-- Optical Lens Circular Iris Bloom -->
+      <div class="camera-iris-bloom" id="cameraIris"></div>
 
       <!-- Drone Cutout Image -->
       <img src="drone_model.png" alt="Arjun Tactical Drone" class="drone-img" id="droneImg">
@@ -1469,7 +1492,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ========================================================
-   CINEMATIC TACTICAL DRONE PATROL ENGINE (FLUID 3D FLIGHT)
+   CINEMATIC TACTICAL DRONE PATROL ENGINE (OPTICAL LENS ZOOM)
    ======================================================== */
 (function initTacticalDrone() {
   const introEl = document.getElementById('droneIntro');
@@ -1480,6 +1503,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   const targetLbl = document.getElementById('targetLbl');
   const dronePrompt = document.getElementById('dronePrompt');
   const scannerBeam = document.getElementById('scannerBeam');
+  const cameraIris = document.getElementById('cameraIris');
   const replayBtn = document.getElementById('replayDroneBtn');
 
   if (!introEl || !bgCanvas || !actor) return;
@@ -1515,10 +1539,9 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     if (animId) cancelAnimationFrame(animId);
     setTimeout(() => {
       introEl.style.display = 'none';
-    }, 800);
+    }, 700);
   }
 
-  // Smooth Hermite / Catmull-Rom spline interpolation helper
   function spline(p0, p1, p2, p3, t) {
     const t2 = t * t;
     const t3 = t2 * t;
@@ -1530,18 +1553,14 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     );
   }
 
-  // Continuous waypoint trajectory:
-  // Waypoint 0 (t=0.0): Far top-right in deep space
-  // Waypoint 1 (t=0.25): Sweeping down-left with banking
-  // Waypoint 2 (t=0.52): S-curve sweep through center toward viewer
-  // Waypoint 3 (t=0.76): Dramatic close-up sweep right in front of camera
-  // Waypoint 4 (t=1.0): Thruster launch up and out past camera
+  // Waypoints: drone flies from deep space, centers its camera lens directly in front,
+  // and then the camera lens surges forward straight into the screen!
   const waypoints = [
-    { x: 380,  y: -140, z: -680, scale: 0.16 }, // 0: deep entry
-    { x: -220, y: -40,  z: -340, scale: 0.42 }, // 1: swoop left
-    { x: 40,   y: 20,   z: -80,  scale: 0.78 }, // 2: center approach
-    { x: -15,  y: -10,  z: 60,   scale: 1.05 }, // 3: full close-up glide
-    { x: -60,  y: -750, z: 420,  scale: 1.65 }  // 4: rocket exit
+    { x: 360,  y: -130, z: -680, scale: 0.16 }, // 0: deep entry
+    { x: -200, y: -40,  z: -320, scale: 0.42 }, // 1: swoop left
+    { x: 35,   y: 10,   z: -80,  scale: 0.78 }, // 2: center approach
+    { x: 0,    y: 0,    z: 60,   scale: 1.15 }, // 3: camera centered in front of screen
+    { x: 0,    y: 0,    z: 950,  scale: 6.2  }  // 4: CAMERA DIRECTLY ZOOMS INTO SCREEN!
   ];
 
   let prevX = waypoints[0].x;
@@ -1551,7 +1570,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   let hudX = window.innerWidth / 2, hudY = window.innerHeight / 2;
 
   let startTime = null;
-  const TOTAL_DURATION = 8.2; // ~8.2s total continuous flight
+  const TOTAL_DURATION = 8.2; // ~8.2s total
 
   function render(time) {
     if (!startTime) startTime = time;
@@ -1563,7 +1582,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
       return;
     }
 
-    // 1. Draw Space Dust & Horizon Grid
+    // 1. Space Dust & Horizon Grid
     ctx.fillStyle = '#080306';
     ctx.fillRect(0, 0, W, H);
 
@@ -1585,7 +1604,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
       }
     }
 
-    // Subtle Perspective Grid Floor
+    // Perspective Grid Floor
     ctx.save();
     ctx.strokeStyle = 'rgba(244, 63, 94, 0.07)';
     ctx.lineWidth = 1;
@@ -1605,12 +1624,18 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     }
     ctx.restore();
 
-    // 2. Smooth Continuous Trajectory Calculation (Spline Evaluation)
-    // Map progress (0..1) smoothly across the 4 spline segments
-    // Continuous ease curve so speed never drops to zero!
-    const easeT = progress < 0.75 
-      ? Math.sin(progress / 0.75 * Math.PI * 0.5) * 0.75 
-      : 0.75 + Math.pow((progress - 0.75) / 0.25, 2) * 0.25;
+    // 2. Trajectory Progression:
+    // 0 to 0.76 is fluid entry and camera centering.
+    // 0.76 to 1.0 is the straight zoom directly into the camera lens!
+    let easeT = 0;
+    if (progress < 0.76) {
+      easeT = (progress / 0.76) * 0.75;
+      easeT = Math.sin(easeT / 0.75 * Math.PI * 0.5) * 0.75;
+    } else {
+      const pZoom = (progress - 0.76) / 0.24;
+      const easeZoom = pZoom * pZoom * (3 - 2 * pZoom);
+      easeT = 0.75 + easeZoom * 0.25;
+    }
 
     const segCount = waypoints.length - 1; // 4 segments
     const scaledT = easeT * segCount;
@@ -1627,80 +1652,78 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     let posZ = spline(p0.z, p1.z, p2.z, p3.z, localT);
     let scaleVal = spline(p0.scale, p1.scale, p2.scale, p3.scale, localT);
 
-    // Natural Organic Micro-Hover Stabilization (Perlin-like multi-frequency flutter)
-    const hoverWobbleY = Math.sin(elapsed * 4.2) * 4.5 + Math.cos(elapsed * 2.8) * 2.5;
-    const hoverWobbleX = Math.cos(elapsed * 3.1) * 3.0;
+    // Subtle natural hover wobble (fades out as camera zooms into screen)
+    const wobbleDamp = Math.max(0, 1 - (progress - 0.7) / 0.2);
+    const hoverWobbleY = (Math.sin(elapsed * 4.2) * 3.5 + Math.cos(elapsed * 2.8) * 2) * wobbleDamp;
+    const hoverWobbleX = (Math.cos(elapsed * 3.1) * 2.5) * wobbleDamp;
     posY += hoverWobbleY;
     posX += hoverWobbleX;
 
-    // Physical Aerodynamic Roll & Pitch calculated directly from velocity vector!
+    // Physical Aerodynamic Roll & Pitch from velocity
     const vx = posX - prevX;
     const vy = posY - prevY;
     prevX = posX;
     prevY = posY;
 
-    // Physical banking: roll tilts into sideways velocity
-    const targetRoll = Math.max(-28, Math.min(28, -vx * 1.6));
+    // During zoom-in, roll & pitch level out to 0 so camera looks DEAD STRAIGHT into screen!
+    const levelDamp = progress < 0.72 ? 1 : Math.max(0, 1 - (progress - 0.72) / 0.15);
+    const targetRoll = Math.max(-28, Math.min(28, -vx * 1.6)) * levelDamp;
     smoothRoll += (targetRoll - smoothRoll) * 0.14;
 
-    // Physical pitch: forward acceleration tilts nose down, deceleration levels off
-    let targetPitch = Math.max(-22, Math.min(20, -posZ * 0.025 + vy * 0.5));
-    if (elapsed > 6.8) {
-      targetPitch = -24; // nose down for rocket climb-out
-    }
+    const targetPitch = Math.max(-18, Math.min(18, -posZ * 0.02 + vy * 0.4)) * levelDamp;
     smoothPitch += (targetPitch - smoothPitch) * 0.12;
 
     const yaw = -smoothRoll * 0.65;
 
-    // Fade out as it exits in final 0.8s
+    // Fade out as lens covers the entire viewport at the end
     let opacityVal = 1;
-    if (elapsed > 7.4) {
-      opacityVal = Math.max(0, 1 - (elapsed - 7.4) / 0.8);
+    if (progress > 0.88) {
+      opacityVal = Math.max(0, 1 - (progress - 0.88) / 0.12);
     }
 
-    // Dynamic HUD Telemetry & Text based on flight phase
+    // Telemetry & Scan states
     if (elapsed < 2.8) {
-      targetLbl.textContent = 'SYS://AIRSPACE RECONNAISSANCE PATROL';
+      targetLbl.textContent = 'SYS://AIRSPACE RECONNAISSANCE';
       dronePrompt.textContent = 'AUTONOMOUS SENSORS INITIALIZING...';
       const range = Math.max(1.2, (28 - (elapsed / 2.8) * 16)).toFixed(1);
       telemetryEl.textContent = `RANGE: ${range}m • ALT: 1.8m • SPD: 38km/h • PATROL ACTIVE`;
       hudTarget.classList.remove('active');
       scannerBeam.classList.remove('active');
-    } else if (elapsed < 6.8) {
-      // Closeup Glide & Scan
+      cameraIris.classList.remove('active');
+    } else if (elapsed < 6.4) {
       hudTarget.classList.add('active');
       scannerBeam.classList.add('active');
+      cameraIris.classList.add('active');
       if (elapsed < 4.8) {
-        targetLbl.textContent = 'TARGET ACQUIRED: VISITOR // LOCKING...';
+        targetLbl.textContent = 'TARGET: VISITOR // LOCKING OPTICAL SENSOR';
         dronePrompt.textContent = 'ACQUIRING VISITOR TELEMETRY...';
-        telemetryEl.textContent = `RANGE: 3.4m • ALT: 1.7m • SPD: 18km/h • LOCKING VISITOR`;
+        telemetryEl.textContent = `RANGE: 2.4m • ALT: 1.6m • SPD: 16km/h • LOCKING LENS`;
       } else {
-        targetLbl.textContent = 'TARGET LOCKED // ACCESS GRANTED';
+        targetLbl.textContent = 'CAMERA LOCKED // OPTICAL ACCESS GRANTED';
         dronePrompt.textContent = 'WELCOME TO ARJUN E M ROBOTICS PORTFOLIO';
-        telemetryEl.textContent = `RANGE: 0.9m • ALT: 1.6m • SPD: GLIDE • ACCESS AUTHORIZED`;
+        telemetryEl.textContent = `RANGE: 0.6m • CAMERA: CENTERED • ACCESS AUTHORIZED`;
       }
     } else {
-      // Rocket Exit
       hudTarget.classList.remove('active');
       scannerBeam.classList.remove('active');
-      dronePrompt.textContent = 'LAUNCHING INTERFACE...';
-      telemetryEl.textContent = `RANGE: 0.2m • ALT: CLIMB • SPD: 64km/h • ENGAGING`;
+      dronePrompt.textContent = 'ENTERING SYSTEM INTERFACE...';
+      telemetryEl.textContent = `RANGE: 0.0m • OPTICAL ZOOM • ACCESSING PORTFOLIO`;
     }
 
     // Apply 3D Transform to Drone Actor
     actor.style.transform = `translate3d(${posX}px, ${posY}px, ${posZ}px) rotateX(${smoothPitch}deg) rotateY(${yaw}deg) rotateZ(${smoothRoll}deg) scale(${scaleVal})`;
     actor.style.opacity = opacityVal;
 
-    // Smooth Elastic Tracking for HUD Target Box (Never rigid or stuck)
+    // Center HUD Target right over the camera lens
     const targetScreenX = W / 2 + posX;
     const targetScreenY = H / 2 + posY;
-    hudX += (targetScreenX - hudX) * 0.15;
-    hudY += (targetScreenY - hudY) * 0.15;
+    hudX += (targetScreenX - hudX) * 0.18;
+    hudY += (targetScreenY - hudY) * 0.18;
     hudTarget.style.left = `${hudX}px`;
     hudTarget.style.top = `${hudY}px`;
-    const boxSize = Math.max(140, Math.min(380, 260 * scaleVal));
+    const boxSize = Math.max(110, Math.min(260, 160 * Math.min(1.4, scaleVal)));
     hudTarget.style.width = `${boxSize}px`;
-    hudTarget.style.height = `${boxSize * 0.75}px`;
+    hudTarget.style.height = `${boxSize}px`;
 
     if (!isDone) {
       animId = requestAnimationFrame(render);
