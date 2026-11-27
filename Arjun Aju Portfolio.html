@@ -913,7 +913,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 
 
 /* ========================================================
-   CINEMATIC TACTICAL DRONE PATROL INTRO (8-9s)
+   CINEMATIC TACTICAL DRONE PATROL INTRO (FLUID 3D FLIGHT)
    ======================================================== */
 #droneIntro {
   position: fixed;
@@ -926,7 +926,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   justify-content: center;
   perspective: 1200px;
   perspective-origin: 50% 50%;
-  transition: opacity 0.85s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.85s;
+  transition: opacity 0.75s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.75s;
 }
 #droneIntro.fade-out {
   opacity: 0;
@@ -957,7 +957,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   max-width: 680px;
   transform-origin: center center;
   transform-style: preserve-3d;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -968,41 +968,34 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   display: block;
   user-select: none;
   -webkit-user-drag: none;
-  filter: drop-shadow(0 0 35px rgba(244, 63, 94, 0.45)) drop-shadow(0 25px 50px rgba(0, 0, 0, 0.85));
+  filter: drop-shadow(0 0 30px rgba(244, 63, 94, 0.5)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.9));
 }
-.headlight-beam {
+.headlight-flare {
   position: absolute;
   top: 48%;
-  width: 140px;
-  height: 220px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 15px #ffffff, 0 0 35px #f43f5e, 0 0 60px rgba(255, 42, 85, 0.8);
+  filter: blur(1px);
   pointer-events: none;
-  background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.85) 0%, rgba(254, 205, 211, 0.4) 30%, rgba(244, 63, 94, 0) 70%);
-  transform-origin: top center;
-  filter: blur(12px);
-  opacity: 0.85;
-  mix-blend-mode: screen;
 }
-.headlight-beam.left {
-  left: 38%;
-  transform: rotate(-18deg) scaleY(1.4);
-}
-.headlight-beam.right {
-  right: 38%;
-  transform: rotate(18deg) scaleY(1.4);
-}
+.headlight-flare.left { left: 40.5%; }
+.headlight-flare.right { right: 40.5%; }
 .motor-halo {
   position: absolute;
-  width: 58px;
-  height: 22px;
+  width: 52px;
+  height: 20px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 42, 85, 0.95) 0%, rgba(249, 115, 22, 0.6) 45%, transparent 75%);
-  filter: blur(4px);
-  box-shadow: 0 0 20px #f43f5e, 0 0 40px #ff2a55;
+  background: radial-gradient(circle, rgba(255, 42, 85, 0.95) 0%, rgba(249, 115, 22, 0.5) 45%, transparent 75%);
+  filter: blur(3px);
+  box-shadow: 0 0 18px #f43f5e, 0 0 35px #ff2a55;
   animation: motorThrust 0.12s infinite alternate;
 }
 @keyframes motorThrust {
-  0% { transform: scale(0.92); opacity: 0.8; }
-  100% { transform: scale(1.12); opacity: 1; }
+  0% { transform: scale(0.94); opacity: 0.85; }
+  100% { transform: scale(1.10); opacity: 1; }
 }
 .motor-halo.fl { left: 14%; top: 38%; }
 .motor-halo.fr { right: 14%; top: 38%; }
@@ -1016,19 +1009,19 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   height: 2px;
   transform: translate(-50%, -50%);
   background: linear-gradient(90deg, transparent, #f43f5e 20%, #ffffff 50%, #f97316 80%, transparent);
-  box-shadow: 0 0 16px #f43f5e, 0 0 32px #f97316;
+  box-shadow: 0 0 14px #f43f5e, 0 0 28px #f97316;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s;
 }
 .drone-scanner-beam.active {
-  opacity: 0.9;
-  animation: scanSweep 1.6s ease-in-out infinite alternate;
+  opacity: 0.95;
+  animation: scanSweep 1.4s ease-in-out infinite alternate;
 }
 @keyframes scanSweep {
-  0% { transform: translate(-50%, -120px) scaleX(0.85); opacity: 0.4; }
-  50% { transform: translate(-50%, 40px) scaleX(1.15); opacity: 1; }
-  100% { transform: translate(-50%, 160px) scaleX(0.95); opacity: 0.5; }
+  0% { transform: translate(-50%, -80px) scaleX(0.9); opacity: 0.5; }
+  50% { transform: translate(-50%, 20px) scaleX(1.1); opacity: 1; }
+  100% { transform: translate(-50%, 120px) scaleX(0.95); opacity: 0.6; }
 }
 .drone-hud {
   position: absolute;
@@ -1124,13 +1117,13 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 .hud-target-box {
   position: absolute;
   width: 220px;
-  height: 220px;
-  border: 1px dashed rgba(244, 63, 94, 0.45);
+  height: 180px;
+  border: 1px dashed rgba(244, 63, 94, 0.4);
   border-radius: 16px;
   transform: translate(-50%, -50%);
   pointer-events: none;
   opacity: 0;
-  transition: width 0.3s, height 0.3s, opacity 0.4s;
+  transition: opacity 0.4s ease;
   z-index: 4;
 }
 .hud-target-box.active {
@@ -1138,8 +1131,8 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 }
 .hud-target-box .corner {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-color: #f43f5e;
   border-style: solid;
 }
@@ -1149,7 +1142,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 .hud-target-box .corner.br { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
 .target-lbl {
   position: absolute;
-  top: -26px;
+  top: -24px;
   left: 0;
   font-size: 11px;
   font-weight: 700;
@@ -1174,20 +1167,20 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 
   <div class="drone-stage">
     <div class="drone-actor" id="droneActor">
-      <!-- Glow light cones from headlights -->
-      <div class="headlight-beam left"></div>
-      <div class="headlight-beam right"></div>
+      <!-- High-Intensity LED Headlight Flares on Nose -->
+      <div class="headlight-flare left"></div>
+      <div class="headlight-flare right"></div>
 
-      <!-- Glowing motor halos -->
+      <!-- Glowing Motor Halos -->
       <div class="motor-halo fl"></div>
       <div class="motor-halo fr"></div>
       <div class="motor-halo bl"></div>
       <div class="motor-halo br"></div>
 
-      <!-- Laser scan beam -->
+      <!-- Laser Scan Beam -->
       <div class="drone-scanner-beam" id="scannerBeam"></div>
 
-      <!-- Actual Drone Cutout Image with Red Canopy & "A" Emblem -->
+      <!-- Drone Cutout Image -->
       <img src="drone_model.png" alt="Arjun Tactical Drone" class="drone-img" id="droneImg">
     </div>
   </div>
@@ -1198,7 +1191,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
         <span class="pulse-dot"></span>
         <span class="status-code">SYS://AUTONOMOUS.DRONE.AEM</span>
       </div>
-      <div class="drone-telemetry" id="droneTelemetry">RANGE: 320m • ALT: 14m • SPD: 28km/h • PATROL ACTIVE</div>
+      <div class="drone-telemetry" id="droneTelemetry">RANGE: 32m • ALT: 1.8m • SPD: 38km/h • PATROL ACTIVE</div>
     </div>
 
     <div class="drone-hud-bottom">
@@ -1476,7 +1469,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ========================================================
-   CINEMATIC TACTICAL DRONE PATROL ENGINE (8-9s)
+   CINEMATIC TACTICAL DRONE PATROL ENGINE (FLUID 3D FLIGHT)
    ======================================================== */
 (function initTacticalDrone() {
   const introEl = document.getElementById('droneIntro');
@@ -1487,6 +1480,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   const targetLbl = document.getElementById('targetLbl');
   const dronePrompt = document.getElementById('dronePrompt');
   const scannerBeam = document.getElementById('scannerBeam');
+  const replayBtn = document.getElementById('replayDroneBtn');
 
   if (!introEl || !bgCanvas || !actor) return;
 
@@ -1504,13 +1498,13 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 
   // Floating Cyber Space Dust
   const stars = [];
-  for (let i = 0; i < 90; i++) {
+  for (let i = 0; i < 85; i++) {
     stars.push({
-      x: (Math.random() - 0.5) * 2000,
-      y: (Math.random() - 0.5) * 1400,
+      x: (Math.random() - 0.5) * 2200,
+      y: (Math.random() - 0.5) * 1500,
       z: Math.random() * 900 + 40,
       sz: Math.random() * 2.2 + 0.8,
-      alpha: Math.random() * 0.5 + 0.15
+      alpha: Math.random() * 0.45 + 0.15
     });
   }
 
@@ -1521,28 +1515,66 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     if (animId) cancelAnimationFrame(animId);
     setTimeout(() => {
       introEl.style.display = 'none';
-    }, 900);
+    }, 800);
   }
 
+  // Smooth Hermite / Catmull-Rom spline interpolation helper
+  function spline(p0, p1, p2, p3, t) {
+    const t2 = t * t;
+    const t3 = t2 * t;
+    return 0.5 * (
+      (2 * p1) +
+      (-p0 + p2) * t +
+      (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 +
+      (-p0 + 3 * p1 - 3 * p2 + p3) * t3
+    );
+  }
+
+  // Continuous waypoint trajectory:
+  // Waypoint 0 (t=0.0): Far top-right in deep space
+  // Waypoint 1 (t=0.25): Sweeping down-left with banking
+  // Waypoint 2 (t=0.52): S-curve sweep through center toward viewer
+  // Waypoint 3 (t=0.76): Dramatic close-up sweep right in front of camera
+  // Waypoint 4 (t=1.0): Thruster launch up and out past camera
+  const waypoints = [
+    { x: 380,  y: -140, z: -680, scale: 0.16 }, // 0: deep entry
+    { x: -220, y: -40,  z: -340, scale: 0.42 }, // 1: swoop left
+    { x: 40,   y: 20,   z: -80,  scale: 0.78 }, // 2: center approach
+    { x: -15,  y: -10,  z: 60,   scale: 1.05 }, // 3: full close-up glide
+    { x: -60,  y: -750, z: 420,  scale: 1.65 }  // 4: rocket exit
+  ];
+
+  let prevX = waypoints[0].x;
+  let prevY = waypoints[0].y;
+  let smoothRoll = -20;
+  let smoothPitch = 15;
+  let hudX = window.innerWidth / 2, hudY = window.innerHeight / 2;
+
   let startTime = null;
+  const TOTAL_DURATION = 8.2; // ~8.2s total continuous flight
 
   function render(time) {
     if (!startTime) startTime = time;
-    const elapsed = (time - startTime) / 1000; // in seconds
+    const elapsed = (time - startTime) / 1000;
+    const progress = Math.min(1, elapsed / TOTAL_DURATION);
 
-    // 1. Draw Perspective Cyber Grid and Stars
+    if (progress >= 1) {
+      finish();
+      return;
+    }
+
+    // 1. Draw Space Dust & Horizon Grid
     ctx.fillStyle = '#080306';
     ctx.fillRect(0, 0, W, H);
 
-    // Stars floating forward
     for (const star of stars) {
-      star.z -= 3.2;
+      star.z -= 3.5;
       if (star.z < 20) {
         star.z = 940;
-        star.x = (Math.random() - 0.5) * 2000;
-        star.y = (Math.random() - 0.5) * 1400;
+        star.x = (Math.random() - 0.5) * 2200;
+        star.y = (Math.random() - 0.5) * 1500;
       }
-      const scale = 400 / Math.max(10, star.z);
+      const scale = 380 / Math.max(10, star.z);
       const sx = W / 2 + star.x * scale;
       const sy = H / 2 + star.y * scale;
       if (scale > 0 && sx >= 0 && sx <= W && sy >= 0 && sy <= H) {
@@ -1553,11 +1585,11 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
       }
     }
 
-    // Perspective Cyber Grid Floor
+    // Subtle Perspective Grid Floor
     ctx.save();
-    ctx.strokeStyle = 'rgba(244, 63, 94, 0.08)';
+    ctx.strokeStyle = 'rgba(244, 63, 94, 0.07)';
     ctx.lineWidth = 1;
-    const floorY = H * 0.72;
+    const floorY = H * 0.74;
     for (let d = 80; d <= 800; d += 90) {
       const py = floorY + (H - floorY) * (d / 800);
       ctx.beginPath();
@@ -1573,105 +1605,119 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     }
     ctx.restore();
 
-    // 2. Drone Flight Trajectory (8-9 seconds total duration)
-    let posX = 0, posY = 0, posZ = -600;
-    let roll = 0, pitch = 0, yaw = 0;
-    let scaleVal = 0.2;
-    let opacityVal = 1;
+    // 2. Smooth Continuous Trajectory Calculation (Spline Evaluation)
+    // Map progress (0..1) smoothly across the 4 spline segments
+    // Continuous ease curve so speed never drops to zero!
+    const easeT = progress < 0.75 
+      ? Math.sin(progress / 0.75 * Math.PI * 0.5) * 0.75 
+      : 0.75 + Math.pow((progress - 0.75) / 0.25, 2) * 0.25;
 
-    if (elapsed < 2.5) {
-      // Phase 1: Deep stealth entry from deep distance (0.0s - 2.5s)
-      const p = elapsed / 2.5;
-      const ease = p * p * (3 - 2 * p);
-      posX = -280 + ease * 340;
-      posY = -90 + Math.sin(p * Math.PI) * 50;
-      posZ = -700 + ease * 420;
-      scaleVal = 0.18 + ease * 0.28;
-      roll = -18 + ease * 26; // authentic banking into turn
-      pitch = 14 - ease * 8;   // nose down during forward thrust
-      yaw = 12 - ease * 18;
+    const segCount = waypoints.length - 1; // 4 segments
+    const scaledT = easeT * segCount;
+    const segIdx = Math.min(segCount - 1, Math.floor(scaledT));
+    const localT = scaledT - segIdx;
+
+    const p0 = waypoints[Math.max(0, segIdx - 1)];
+    const p1 = waypoints[segIdx];
+    const p2 = waypoints[Math.min(segCount, segIdx + 1)];
+    const p3 = waypoints[Math.min(segCount, segIdx + 2)];
+
+    let posX = spline(p0.x, p1.x, p2.x, p3.x, localT);
+    let posY = spline(p0.y, p1.y, p2.y, p3.y, localT);
+    let posZ = spline(p0.z, p1.z, p2.z, p3.z, localT);
+    let scaleVal = spline(p0.scale, p1.scale, p2.scale, p3.scale, localT);
+
+    // Natural Organic Micro-Hover Stabilization (Perlin-like multi-frequency flutter)
+    const hoverWobbleY = Math.sin(elapsed * 4.2) * 4.5 + Math.cos(elapsed * 2.8) * 2.5;
+    const hoverWobbleX = Math.cos(elapsed * 3.1) * 3.0;
+    posY += hoverWobbleY;
+    posX += hoverWobbleX;
+
+    // Physical Aerodynamic Roll & Pitch calculated directly from velocity vector!
+    const vx = posX - prevX;
+    const vy = posY - prevY;
+    prevX = posX;
+    prevY = posY;
+
+    // Physical banking: roll tilts into sideways velocity
+    const targetRoll = Math.max(-28, Math.min(28, -vx * 1.6));
+    smoothRoll += (targetRoll - smoothRoll) * 0.14;
+
+    // Physical pitch: forward acceleration tilts nose down, deceleration levels off
+    let targetPitch = Math.max(-22, Math.min(20, -posZ * 0.025 + vy * 0.5));
+    if (elapsed > 6.8) {
+      targetPitch = -24; // nose down for rocket climb-out
+    }
+    smoothPitch += (targetPitch - smoothPitch) * 0.12;
+
+    const yaw = -smoothRoll * 0.65;
+
+    // Fade out as it exits in final 0.8s
+    let opacityVal = 1;
+    if (elapsed > 7.4) {
+      opacityVal = Math.max(0, 1 - (elapsed - 7.4) / 0.8);
+    }
+
+    // Dynamic HUD Telemetry & Text based on flight phase
+    if (elapsed < 2.8) {
       targetLbl.textContent = 'SYS://AIRSPACE RECONNAISSANCE PATROL';
       dronePrompt.textContent = 'AUTONOMOUS SENSORS INITIALIZING...';
-      const range = (28 - ease * 16).toFixed(1);
-      telemetryEl.textContent = `RANGE: ${range}m • ALT: 1.8m • SPD: 34km/h • PATROL ACTIVE`;
-    } else if (elapsed < 5.2) {
-      // Phase 2: S-curve tactical maneuver & visitor lock (2.5s - 5.2s)
-      const p = (elapsed - 2.5) / 2.7;
-      const ease = p * p * (3 - 2 * p);
-      posX = 60 - Math.sin(p * Math.PI) * 180 - ease * 60;
-      posY = -40 + Math.cos(p * Math.PI) * 35;
-      posZ = -280 + ease * 230;
-      scaleVal = 0.46 + ease * 0.38;
-      roll = Math.sin(p * Math.PI * 2) * 14;
-      pitch = 8 - Math.sin(p * Math.PI) * 6;
-      yaw = -10 + Math.sin(p * Math.PI) * 16;
-
+      const range = Math.max(1.2, (28 - (elapsed / 2.8) * 16)).toFixed(1);
+      telemetryEl.textContent = `RANGE: ${range}m • ALT: 1.8m • SPD: 38km/h • PATROL ACTIVE`;
+      hudTarget.classList.remove('active');
+      scannerBeam.classList.remove('active');
+    } else if (elapsed < 6.8) {
+      // Closeup Glide & Scan
       hudTarget.classList.add('active');
-      targetLbl.textContent = 'TARGET ACQUIRED: VISITOR // LOCKING...';
-      dronePrompt.textContent = 'ACQUIRING VISITOR TELEMETRY...';
-      const range = (12 - ease * 8).toFixed(1);
-      telemetryEl.textContent = `RANGE: ${range}m • ALT: 1.8m • SPD: 24km/h • LOCKING VISITOR`;
-    } else if (elapsed < 7.6) {
-      // Phase 3: Ultra Close-Up 3D Hover & Optical Scan (5.2s - 7.6s)
-      const p = (elapsed - 5.2) / 2.4;
-      const easeZ = p * p * (3 - 2 * p);
-      const hoverY = Math.sin((elapsed - 5.2) * 3.8) * 8; // gentle organic hover
-      const hoverRoll = Math.cos((elapsed - 5.2) * 2.8) * 1.5;
-
-      posX = Math.sin(p * Math.PI) * 10;
-      posY = hoverY;
-      posZ = -50 + easeZ * 80;
-      scaleVal = 0.84 + easeZ * 0.22; // huge, filling screen in crisp HD!
-      roll = hoverRoll;
-      pitch = 2 + Math.sin((elapsed - 5.2) * 3) * 1.8;
-      yaw = Math.sin((elapsed - 5.2) * 2) * 2.2;
-
       scannerBeam.classList.add('active');
-      targetLbl.textContent = 'TARGET LOCKED // ACCESS GRANTED';
-      dronePrompt.textContent = 'WELCOME TO ARJUN E M ROBOTICS PORTFOLIO';
-      telemetryEl.textContent = 'RANGE: 0.8m • ALT: 1.6m • SPD: HOVER • ACCESS AUTHORIZED';
-    } else if (elapsed < 8.8) {
-      // Phase 4: Thruster Burst & Warp Flyby Past Screen (7.6s - 8.8s)
-      const p = (elapsed - 7.6) / 1.2;
-      const ease = p * p;
-      posX -= ease * 40;
-      posY -= ease * 650; // rocket upward past camera!
-      posZ = 30 + ease * 350;
-      scaleVal = 1.06 + ease * 0.85;
-      pitch = -22 * ease;
-      roll = ease * 8;
-      opacityVal = Math.max(0, 1 - ease * 1.3);
-
+      if (elapsed < 4.8) {
+        targetLbl.textContent = 'TARGET ACQUIRED: VISITOR // LOCKING...';
+        dronePrompt.textContent = 'ACQUIRING VISITOR TELEMETRY...';
+        telemetryEl.textContent = `RANGE: 3.4m • ALT: 1.7m • SPD: 18km/h • LOCKING VISITOR`;
+      } else {
+        targetLbl.textContent = 'TARGET LOCKED // ACCESS GRANTED';
+        dronePrompt.textContent = 'WELCOME TO ARJUN E M ROBOTICS PORTFOLIO';
+        telemetryEl.textContent = `RANGE: 0.9m • ALT: 1.6m • SPD: GLIDE • ACCESS AUTHORIZED`;
+      }
+    } else {
+      // Rocket Exit
+      hudTarget.classList.remove('active');
       scannerBeam.classList.remove('active');
       dronePrompt.textContent = 'LAUNCHING INTERFACE...';
-    } else {
-      finish();
-      return;
+      telemetryEl.textContent = `RANGE: 0.2m • ALT: CLIMB • SPD: 64km/h • ENGAGING`;
     }
 
     // Apply 3D Transform to Drone Actor
-    actor.style.transform = `translate3d(${posX}px, ${posY}px, ${posZ}px) rotateX(${pitch}deg) rotateY(${yaw}deg) rotateZ(${roll}deg) scale(${scaleVal})`;
+    actor.style.transform = `translate3d(${posX}px, ${posY}px, ${posZ}px) rotateX(${smoothPitch}deg) rotateY(${yaw}deg) rotateZ(${smoothRoll}deg) scale(${scaleVal})`;
     actor.style.opacity = opacityVal;
 
-    // Center HUD Target over Drone
-    hudTarget.style.left = `${W / 2 + posX}px`;
-    hudTarget.style.top = `${H / 2 + posY}px`;
-    const boxSize = Math.max(120, Math.min(380, 240 * scaleVal));
+    // Smooth Elastic Tracking for HUD Target Box (Never rigid or stuck)
+    const targetScreenX = W / 2 + posX;
+    const targetScreenY = H / 2 + posY;
+    hudX += (targetScreenX - hudX) * 0.15;
+    hudY += (targetScreenY - hudY) * 0.15;
+    hudTarget.style.left = `${hudX}px`;
+    hudTarget.style.top = `${hudY}px`;
+    const boxSize = Math.max(140, Math.min(380, 260 * scaleVal));
     hudTarget.style.width = `${boxSize}px`;
-    hudTarget.style.height = `${boxSize * 0.8}px`;
+    hudTarget.style.height = `${boxSize * 0.75}px`;
 
     if (!isDone) {
       animId = requestAnimationFrame(render);
     }
   }
 
-    const replayBtn = document.getElementById('replayDroneBtn');
+  // Replay Button Listener
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
       introEl.style.display = 'flex';
       introEl.classList.remove('fade-out');
       isDone = false;
       startTime = null;
+      prevX = waypoints[0].x;
+      prevY = waypoints[0].y;
+      smoothRoll = -20;
+      smoothPitch = 15;
       if (animId) cancelAnimationFrame(animId);
       animId = requestAnimationFrame(render);
     });
