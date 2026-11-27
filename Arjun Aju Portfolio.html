@@ -1150,7 +1150,6 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     <div class="row rv" style="--d:.4s">
       <a class="btn fill" href="#projects">View Projects →</a>
       <button class="btn" id="resumeBtn">⬇ Resume</button>
-      <button class="btn" id="replayDroneBtn" title="Launch 3D Drone Flight" aria-label="3D Drone Flight">🛸 3D Drone</button>
     </div>
     <div class="row soc rv" style="--d:.5s">
       <a class="ib" id="socLinkedin" href="https://linkedin.com/in/arjun-aju" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
@@ -1386,7 +1385,6 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   const hudTarget = document.getElementById('hudTarget');
   const scannerBeam = document.getElementById('scannerBeam');
   const cameraIris = document.getElementById('cameraIris');
-  const replayBtn = document.getElementById('replayDroneBtn');
 
   if (!introEl || !bgCanvas || !actor) return;
 
@@ -1599,21 +1597,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     }
   }
 
-  // Replay Button Listener
-  if (replayBtn) {
-    replayBtn.addEventListener('click', () => {
-      introEl.style.display = 'flex';
-      introEl.classList.remove('fade-out');
-      isDone = false;
-      startTime = null;
-      prevX = waypoints[0].x;
-      prevY = waypoints[0].y;
-      smoothRoll = -20;
-      smoothPitch = 15;
-      if (animId) cancelAnimationFrame(animId);
-      animId = requestAnimationFrame(render);
-    });
-  }
+
 
   requestAnimationFrame(render);
 })();
