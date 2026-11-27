@@ -913,7 +913,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 
 
 /* ========================================================
-   CINEMATIC TACTICAL DRONE PATROL INTRO (OPTICAL LENS ZOOM)
+   CINEMATIC TACTICAL DRONE PATROL INTRO (CLEAN VISUALS)
    ======================================================== */
 #droneIntro {
   position: fixed;
@@ -1041,97 +1041,6 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 .camera-iris-bloom.active {
   opacity: 1;
 }
-.drone-hud {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(18px, 3.5vw, 36px);
-  z-index: 5;
-  font-family: 'JetBrains Mono', monospace;
-}
-.drone-hud-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.drone-status-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(26, 8, 15, 0.85);
-  backdrop-filter: blur(8px);
-  padding: 8px 18px;
-  border-radius: 99px;
-  border: 1px solid rgba(244, 63, 94, 0.45);
-  box-shadow: 0 0 24px rgba(244, 63, 94, 0.25);
-}
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #f43f5e;
-  box-shadow: 0 0 10px #f43f5e;
-  animation: dronePulse 1s infinite alternate;
-}
-@keyframes dronePulse {
-  0% { transform: scale(0.85); opacity: 0.6; }
-  100% { transform: scale(1.35); opacity: 1; box-shadow: 0 0 18px #ff2a55; }
-}
-.status-code {
-  font-size: 11px;
-  font-weight: 700;
-  color: #ff99aa;
-  letter-spacing: 1.5px;
-}
-.drone-telemetry {
-  font-size: 11px;
-  color: rgba(255, 241, 243, 0.75);
-  letter-spacing: 1px;
-  background: rgba(10, 4, 7, 0.65);
-  padding: 6px 16px;
-  border-radius: 8px;
-  border: 1px solid rgba(244, 63, 94, 0.25);
-}
-.drone-hud-bottom {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.drone-brand {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.brand-title {
-  font-family: 'Sora', sans-serif;
-  font-size: clamp(14px, 2.2vw, 22px);
-  font-weight: 800;
-  letter-spacing: 2px;
-  background: linear-gradient(135deg, #fff 20%, #f43f5e 80%, #f97316 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.brand-sub {
-  font-size: 10.5px;
-  letter-spacing: 1.5px;
-  color: #b598a2;
-}
-.drone-prompt {
-  font-size: 11.5px;
-  color: rgba(255, 241, 243, 0.7);
-  letter-spacing: 1px;
-  animation: droneBlinkText 1.4s infinite;
-}
-@keyframes droneBlinkText {
-  50% { opacity: 0.3; }
-}
 .hud-target-box {
   position: absolute;
   width: 140px;
@@ -1159,18 +1068,6 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 .hud-target-box .corner.tr { top: 6px; right: 6px; border-width: 2px 2px 0 0; }
 .hud-target-box .corner.bl { bottom: 6px; left: 6px; border-width: 0 0 2px 2px; }
 .hud-target-box .corner.br { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
-.target-lbl {
-  position: absolute;
-  top: -26px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 11px;
-  font-weight: 700;
-  color: #f43f5e;
-  white-space: nowrap;
-  letter-spacing: 1.2px;
-  text-shadow: 0 0 10px #f43f5e;
-}
 </style>
 </head>
 <body>
@@ -1182,7 +1079,6 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   <div class="hud-target-box" id="hudTarget">
     <div class="corner tl"></div><div class="corner tr"></div>
     <div class="corner bl"></div><div class="corner br"></div>
-    <span class="target-lbl" id="targetLbl">OPTICAL SENSOR LOCK</span>
   </div>
 
   <div class="drone-stage">
@@ -1205,24 +1101,6 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 
       <!-- Drone Cutout Image -->
       <img src="drone_model.png" alt="Arjun Tactical Drone" class="drone-img" id="droneImg">
-    </div>
-  </div>
-
-  <div class="drone-hud">
-    <div class="drone-hud-top">
-      <div class="drone-status-tag">
-        <span class="pulse-dot"></span>
-        <span class="status-code">SYS://AUTONOMOUS.DRONE.AEM</span>
-      </div>
-      <div class="drone-telemetry" id="droneTelemetry">RANGE: 32m • ALT: 1.8m • SPD: 38km/h • PATROL ACTIVE</div>
-    </div>
-
-    <div class="drone-hud-bottom">
-      <div class="drone-brand">
-        <span class="brand-title">ARJUN E M • ROBOTICS LAB</span>
-        <span class="brand-sub">AUTONOMOUS MOBILE ROBOTICS &amp; IOT SYSTEMS</span>
-      </div>
-      <div class="drone-prompt" id="dronePrompt">INITIALIZING ROBOTICS PORTFOLIO...</div>
     </div>
   </div>
 </div>
@@ -1371,7 +1249,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 <section id="certs">
   <div class="sec-head rv">
     <div class="sec-tag">Credentials &amp; Honors</div>
-    <h2>Certifications Album</h2>
+    <h2>Certifications</h2>
     <p class="sec-desc">Interactive sliding album showcasing accredited credentials in Robotics, IoT, Embedded Systems, and AI.</p>
   </div>
 
@@ -1498,10 +1376,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   const introEl = document.getElementById('droneIntro');
   const bgCanvas = document.getElementById('droneBgCanvas');
   const actor = document.getElementById('droneActor');
-  const telemetryEl = document.getElementById('droneTelemetry');
   const hudTarget = document.getElementById('hudTarget');
-  const targetLbl = document.getElementById('targetLbl');
-  const dronePrompt = document.getElementById('dronePrompt');
   const scannerBeam = document.getElementById('scannerBeam');
   const cameraIris = document.getElementById('cameraIris');
   const replayBtn = document.getElementById('replayDroneBtn');
@@ -1637,7 +1512,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
       easeT = 0.75 + easeZoom * 0.25;
     }
 
-    const segCount = waypoints.length - 1; // 4 segments
+    const segCount = waypoints.length - 1;
     const scaledT = easeT * segCount;
     const segIdx = Math.min(segCount - 1, Math.floor(scaledT));
     const localT = scaledT - segIdx;
@@ -1681,33 +1556,17 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
       opacityVal = Math.max(0, 1 - (progress - 0.88) / 0.12);
     }
 
-    // Telemetry & Scan states
-    if (elapsed < 2.8) {
-      targetLbl.textContent = 'SYS://AIRSPACE RECONNAISSANCE';
-      dronePrompt.textContent = 'AUTONOMOUS SENSORS INITIALIZING...';
-      const range = Math.max(1.2, (28 - (elapsed / 2.8) * 16)).toFixed(1);
-      telemetryEl.textContent = `RANGE: ${range}m • ALT: 1.8m • SPD: 38km/h • PATROL ACTIVE`;
-      hudTarget.classList.remove('active');
-      scannerBeam.classList.remove('active');
-      cameraIris.classList.remove('active');
-    } else if (elapsed < 6.4) {
-      hudTarget.classList.add('active');
-      scannerBeam.classList.add('active');
-      cameraIris.classList.add('active');
-      if (elapsed < 4.8) {
-        targetLbl.textContent = 'TARGET: VISITOR // LOCKING OPTICAL SENSOR';
-        dronePrompt.textContent = 'ACQUIRING VISITOR TELEMETRY...';
-        telemetryEl.textContent = `RANGE: 2.4m • ALT: 1.6m • SPD: 16km/h • LOCKING LENS`;
+    // Target reticle & laser scan states
+    if (hudTarget) {
+      if (elapsed >= 2.8 && elapsed < 6.4) {
+        hudTarget.classList.add('active');
+        if (scannerBeam) scannerBeam.classList.add('active');
+        if (cameraIris) cameraIris.classList.add('active');
       } else {
-        targetLbl.textContent = 'CAMERA LOCKED // OPTICAL ACCESS GRANTED';
-        dronePrompt.textContent = 'WELCOME TO ARJUN E M ROBOTICS PORTFOLIO';
-        telemetryEl.textContent = `RANGE: 0.6m • CAMERA: CENTERED • ACCESS AUTHORIZED`;
+        hudTarget.classList.remove('active');
+        if (scannerBeam) scannerBeam.classList.remove('active');
+        if (cameraIris && elapsed >= 6.4) cameraIris.classList.remove('active');
       }
-    } else {
-      hudTarget.classList.remove('active');
-      scannerBeam.classList.remove('active');
-      dronePrompt.textContent = 'ENTERING SYSTEM INTERFACE...';
-      telemetryEl.textContent = `RANGE: 0.0m • OPTICAL ZOOM • ACCESSING PORTFOLIO`;
     }
 
     // Apply 3D Transform to Drone Actor
@@ -1715,15 +1574,17 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     actor.style.opacity = opacityVal;
 
     // Center HUD Target right over the camera lens
-    const targetScreenX = W / 2 + posX;
-    const targetScreenY = H / 2 + posY;
-    hudX += (targetScreenX - hudX) * 0.18;
-    hudY += (targetScreenY - hudY) * 0.18;
-    hudTarget.style.left = `${hudX}px`;
-    hudTarget.style.top = `${hudY}px`;
-    const boxSize = Math.max(110, Math.min(260, 160 * Math.min(1.4, scaleVal)));
-    hudTarget.style.width = `${boxSize}px`;
-    hudTarget.style.height = `${boxSize}px`;
+    if (hudTarget) {
+      const targetScreenX = W / 2 + posX;
+      const targetScreenY = H / 2 + posY;
+      hudX += (targetScreenX - hudX) * 0.18;
+      hudY += (targetScreenY - hudY) * 0.18;
+      hudTarget.style.left = `${hudX}px`;
+      hudTarget.style.top = `${hudY}px`;
+      const boxSize = Math.max(110, Math.min(260, 160 * Math.min(1.4, scaleVal)));
+      hudTarget.style.width = `${boxSize}px`;
+      hudTarget.style.height = `${boxSize}px`;
+    }
 
     if (!isDone) {
       animId = requestAnimationFrame(render);
