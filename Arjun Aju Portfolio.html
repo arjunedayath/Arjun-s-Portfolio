@@ -1665,6 +1665,18 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     }
   }
 
+    const replayBtn = document.getElementById('replayDroneBtn');
+  if (replayBtn) {
+    replayBtn.addEventListener('click', () => {
+      introEl.style.display = 'flex';
+      introEl.classList.remove('fade-out');
+      isDone = false;
+      startTime = null;
+      if (animId) cancelAnimationFrame(animId);
+      animId = requestAnimationFrame(render);
+    });
+  }
+
   requestAnimationFrame(render);
 })();
 </script>
