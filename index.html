@@ -911,9 +911,225 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   html{scroll-behavior:auto}
 }
 
+
+/* ========================================================
+   3D AUTONOMOUS DRONE PATROL SPLASH INTRO & THEME OVERLAY
+   ======================================================== */
+#droneIntro {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #080306;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.8s;
+}
+#droneIntro.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+#droneCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.drone-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(16px, 3.5vw, 36px);
+  z-index: 2;
+  font-family: 'JetBrains Mono', monospace;
+}
+.drone-hud-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.drone-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(26, 8, 15, 0.82);
+  backdrop-filter: blur(8px);
+  padding: 8px 18px;
+  border-radius: 99px;
+  border: 1px solid rgba(244, 63, 94, 0.45);
+  box-shadow: 0 0 24px rgba(244, 63, 94, 0.25);
+}
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pri);
+  box-shadow: 0 0 10px var(--pri);
+  animation: dronePulse 1s infinite alternate;
+}
+@keyframes dronePulse {
+  0% { transform: scale(0.85); opacity: 0.6; }
+  100% { transform: scale(1.35); opacity: 1; box-shadow: 0 0 18px #ff2a55; }
+}
+.status-code {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff99aa;
+  letter-spacing: 1.5px;
+}
+.drone-telemetry {
+  font-size: 11px;
+  color: rgba(255, 241, 243, 0.75);
+  letter-spacing: 1px;
+  background: rgba(10, 4, 7, 0.65);
+  padding: 6px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(244, 63, 94, 0.25);
+}
+.drone-skip-btn {
+  pointer-events: auto;
+  font-family: 'Sora', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  background: rgba(26, 8, 15, 0.88);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(244, 63, 94, 0.5);
+  padding: 9px 22px;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 0 18px rgba(244, 63, 94, 0.28);
+}
+.drone-skip-btn:hover {
+  background: var(--pri);
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(244, 63, 94, 0.65);
+  border-color: #ff2a55;
+}
+.drone-scanner-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hud-target-box {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border: 1px dashed rgba(244, 63, 94, 0.35);
+  border-radius: 12px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: width 0.2s, height 0.2s, opacity 0.3s;
+  opacity: 0;
+}
+.hud-target-box.active {
+  opacity: 1;
+}
+.hud-target-box .corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--pri);
+  border-style: solid;
+}
+.hud-target-box .corner.tl { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+.hud-target-box .corner.tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
+.hud-target-box .corner.bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
+.hud-target-box .corner.br { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+.target-lbl {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  font-size: 10px;
+  color: var(--pri);
+  white-space: nowrap;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px var(--pri);
+}
+.drone-hud-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.drone-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.brand-title {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(14px, 2.2vw, 22px);
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #fff 20%, #f43f5e 80%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.brand-sub {
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  color: var(--mut);
+}
+.drone-prompt {
+  font-size: 11.5px;
+  color: rgba(255, 241, 243, 0.7);
+  letter-spacing: 1px;
+  animation: droneBlinkText 1.4s infinite;
+}
+@keyframes droneBlinkText {
+  50% { opacity: 0.3; }
+}
+
 </style>
 </head>
 <body>
+
+<!-- 3D Autonomous Drone Patrol Splash Intro -->
+<div id="droneIntro" role="dialog" aria-label="3D Drone Startup Animation">
+  <canvas id="droneCanvas"></canvas>
+  <div class="drone-hud">
+    <div class="drone-hud-top">
+      <div class="drone-status-tag">
+        <span class="pulse-dot"></span>
+        <span class="status-code">SYS://DRONE.PATROL.v3D</span>
+      </div>
+      <div class="drone-telemetry" id="droneTelemetry">RANGE: 420m • ALT: 18m • SPD: 24m/s</div>
+      <button class="drone-skip-btn" id="droneSkipBtn" title="Skip Drone Intro">SKIP INTRO ✕</button>
+    </div>
+
+    <div class="drone-scanner-frame">
+      <div class="hud-target-box" id="hudTarget">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <span class="target-lbl" id="targetLbl">SCANNING AIRSPACE...</span>
+      </div>
+    </div>
+
+    <div class="drone-hud-bottom">
+      <div class="drone-brand">
+        <span class="brand-title">ARJUN E M • ROBOTICS LAB</span>
+        <span class="brand-sub">AUTONOMOUS MOBILE ROBOTICS &amp; IOT SYSTEMS</span>
+      </div>
+      <div class="drone-prompt">INITIALIZING ROBOTICS PORTFOLIO...</div>
+    </div>
+  </div>
+</div>
+
 
 <div id="progress"></div>
 <div id="spotlight"></div>
@@ -953,6 +1169,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
     <div class="row rv" style="--d:.4s">
       <a class="btn fill" href="#projects">View Projects →</a>
       <button class="btn" id="resumeBtn">⬇ Resume</button>
+      <button class="btn" id="replayDroneBtn" title="Launch 3D Drone Flight" aria-label="3D Drone Flight">🛸 3D Drone</button>
     </div>
     <div class="row soc rv" style="--d:.5s">
       <a class="ib" id="socLinkedin" href="https://linkedin.com/in/arjun-aju" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
@@ -1176,7 +1393,441 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+/* ========================================================
+   3D AUTONOMOUS DRONE PATROL SPLASH ENGINE
+   ======================================================== */
+(function initDroneSplash(){
+  const canvas = document.getElementById('droneCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const overlay = document.getElementById('droneIntro');
+  const telemetryEl = document.getElementById('droneTelemetry');
+  const hudTarget = document.getElementById('hudTarget');
+  const targetLbl = document.getElementById('targetLbl');
+  const skipBtn = document.getElementById('droneSkipBtn');
+  const replayBtn = document.getElementById('replayDroneBtn');
+
+  let W = 0, H = 0, cx = 0, cy = 0;
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    cx = W / 2;
+    cy = H / 2;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // 3D Starfield / Sensor Dust
+  const particles = [];
+  for (let i = 0; i < 90; i++) {
+    particles.push({
+      x: (Math.random() - 0.5) * 1400,
+      y: (Math.random() - 0.5) * 900,
+      z: Math.random() * 800 + 50,
+      sz: Math.random() * 2 + 1,
+      alpha: Math.random() * 0.6 + 0.2
+    });
+  }
+
+  // 3D Perspective Projection
+  const FOV = 440;
+  function project(x, y, z) {
+    const scale = FOV / Math.max(15, FOV + z);
+    return {
+      sx: cx + x * scale,
+      sy: cy + y * scale,
+      scale
+    };
+  }
+
+  function rotatePoint(p, pitch, roll, yaw) {
+    // Yaw (Y-axis)
+    const cosY = Math.cos(yaw), sinY = Math.sin(yaw);
+    const x1 = p.x * cosY + p.z * sinY;
+    const y1 = p.y;
+    const z1 = -p.x * sinY + p.z * cosY;
+
+    // Pitch (X-axis)
+    const cosP = Math.cos(pitch), sinP = Math.sin(pitch);
+    const x2 = x1;
+    const y2 = y1 * cosP - z1 * sinP;
+    const z2 = y1 * sinP + z1 * cosP;
+
+    // Roll (Z-axis)
+    const cosR = Math.cos(roll), sinR = Math.sin(roll);
+    const x3 = x2 * cosR - y2 * sinR;
+    const y3 = x2 * sinR + y2 * cosR;
+    const z3 = z2;
+
+    return { x: x3, y: y3, z: z3 };
+  }
+
+  // Drone State
+  const drone = {
+    x: -320,
+    y: -140,
+    z: 750,
+    pitch: 0.15,
+    roll: -0.3,
+    yaw: 0.35,
+    propAngle: 0
+  };
+
+  let startTime = performance.now();
+  let animFrameId = null;
+  let isIntroDone = false;
+
+  function finishIntro() {
+    if (isIntroDone) return;
+    isIntroDone = true;
+    overlay.classList.add('fade-out');
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+    }, 850);
+  }
+
+  function startDroneIntro() {
+    isIntroDone = false;
+    overlay.style.display = 'flex';
+    overlay.classList.remove('fade-out');
+    startTime = performance.now();
+    hudTarget.classList.remove('active');
+    drone.x = -320;
+    drone.y = -140;
+    drone.z = 750;
+    drone.propAngle = 0;
+    resize();
+    if (animFrameId) cancelAnimationFrame(animFrameId);
+    animFrameId = requestAnimationFrame(render);
+  }
+
+  if (skipBtn) skipBtn.addEventListener('click', finishIntro);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target !== skipBtn) finishIntro();
+    });
+  }
+  window.addEventListener('keydown', (e) => {
+    if ((e.key === 'Escape' || e.key === 'Enter') && !isIntroDone) finishIntro();
+  });
+
+  if (replayBtn) {
+    replayBtn.addEventListener('click', startDroneIntro);
+  }
+
+  // Draw 3D Drone Model
+  function drawDrone3D(d) {
+    const armLen = 78;
+    const armAngle = Math.PI / 4; // 45-deg X-quadcopter layout
+
+    const armOffsets = [
+      { x: -Math.cos(armAngle) * armLen, z: -Math.sin(armAngle) * armLen, isFront: true, isLeft: true },   // Front-Left
+      { x:  Math.cos(armAngle) * armLen, z: -Math.sin(armAngle) * armLen, isFront: true, isLeft: false },  // Front-Right
+      { x: -Math.cos(armAngle) * armLen, z:  Math.sin(armAngle) * armLen, isFront: false, isLeft: true },  // Rear-Left
+      { x:  Math.cos(armAngle) * armLen, z:  Math.sin(armAngle) * armLen, isFront: false, isLeft: false }  // Rear-Right
+    ];
+
+    function toScreen(lx, ly, lz) {
+      const rot = rotatePoint({ x: lx, y: ly, z: lz }, d.pitch, d.roll, d.yaw);
+      const wx = d.x + rot.x;
+      const wy = d.y + rot.y;
+      const wz = d.z + rot.z;
+      const proj = project(wx, wy, wz);
+      return { ...proj, wz };
+    }
+
+    // 1. Dual Forward Volumetric Searchlight Beams
+    const lightL = toScreen(-14, 2, -18);
+    const lightR = toScreen( 14, 2, -18);
+    const beamDist = 380;
+    const beamSpread = 130;
+    const beamTargetL = toScreen(-14 - beamSpread * 0.4, 60, -18 - beamDist);
+    const beamTargetR = toScreen( 14 + beamSpread * 0.4, 60, -18 - beamDist);
+
+    ctx.save();
+    [ { src: lightL, tgt: beamTargetL }, { src: lightR, tgt: beamTargetR } ].forEach(b => {
+      const grad = ctx.createRadialGradient(b.src.sx, b.src.sy, 2, b.tgt.sx, b.tgt.sy, 160 * b.src.scale);
+      grad.addColorStop(0, 'rgba(255, 240, 245, 0.45)');
+      grad.addColorStop(0.3, 'rgba(244, 63, 94, 0.22)');
+      grad.addColorStop(0.7, 'rgba(249, 115, 22, 0.08)');
+      grad.addColorStop(1, 'transparent');
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.moveTo(b.src.sx, b.src.sy);
+      ctx.lineTo(b.tgt.sx - 65 * b.src.scale, b.tgt.sy);
+      ctx.lineTo(b.tgt.sx + 65 * b.src.scale, b.tgt.sy);
+      ctx.closePath();
+      ctx.fill();
+    });
+    ctx.restore();
+
+    // 2. Carbon-Fiber Quad Arms
+    const centerScreen = toScreen(0, 0, 0);
+    const armsTransformed = armOffsets.map((arm, idx) => {
+      const tip = toScreen(arm.x, 0, arm.z);
+      return { ...arm, tip, idx };
+    });
+
+    ctx.save();
+    armsTransformed.forEach(arm => {
+      // Carbon tube structural line
+      ctx.strokeStyle = '#180710';
+      ctx.lineWidth = Math.max(3, 8 * arm.tip.scale);
+      ctx.beginPath();
+      ctx.moveTo(centerScreen.sx, centerScreen.sy);
+      ctx.lineTo(arm.tip.sx, arm.tip.sy);
+      ctx.stroke();
+
+      // Neon power conduit along arm
+      ctx.strokeStyle = arm.isFront ? 'rgba(249, 115, 22, 0.85)' : 'rgba(244, 63, 94, 0.85)';
+      ctx.lineWidth = Math.max(1, 2.5 * arm.tip.scale);
+      ctx.shadowColor = arm.isFront ? '#f97316' : '#f43f5e';
+      ctx.shadowBlur = 10 * arm.tip.scale;
+      ctx.beginPath();
+      ctx.moveTo(centerScreen.sx, centerScreen.sy);
+      ctx.lineTo(arm.tip.sx, arm.tip.sy);
+      ctx.stroke();
+    });
+    ctx.restore();
+
+    // 3. Central Drone Chassis
+    ctx.save();
+    const bodyPts = [
+      { x:   0, y: -10, z: -32 }, // Nose top
+      { x:  24, y:  -6, z: -10 }, // Front Right
+      { x:  26, y:  -4, z:  18 }, // Rear Right
+      { x:   0, y:  -8, z:  30 }, // Tail top
+      { x: -26, y:  -4, z:  18 }, // Rear Left
+      { x: -24, y:  -6, z: -10 }  // Front Left
+    ].map(p => toScreen(p.x, p.y, p.z));
+
+    const bodyGrad = ctx.createLinearGradient(bodyPts[0].sx, bodyPts[0].sy, bodyPts[3].sx, bodyPts[3].sy);
+    bodyGrad.addColorStop(0, '#351220');
+    bodyGrad.addColorStop(0.5, '#1e0812');
+    bodyGrad.addColorStop(1, '#11040a');
+    ctx.fillStyle = bodyGrad;
+    ctx.strokeStyle = 'rgba(244, 63, 94, 0.7)';
+    ctx.lineWidth = Math.max(1.5, 3 * centerScreen.scale);
+    ctx.shadowColor = '#f43f5e';
+    ctx.shadowBlur = 14 * centerScreen.scale;
+
+    ctx.beginPath();
+    ctx.moveTo(bodyPts[0].sx, bodyPts[0].sy);
+    for (let i = 1; i < bodyPts.length; i++) ctx.lineTo(bodyPts[i].sx, bodyPts[i].sy);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Glowing Core Reactor
+    const corePos = toScreen(0, -9, 2);
+    const coreRad = Math.max(3, 10 * corePos.scale);
+    const coreGrad = ctx.createRadialGradient(corePos.sx, corePos.sy, 0, corePos.sx, corePos.sy, coreRad * 2.5);
+    coreGrad.addColorStop(0, '#ffffff');
+    coreGrad.addColorStop(0.3, '#ff2a55');
+    coreGrad.addColorStop(0.7, 'rgba(249, 115, 22, 0.4)');
+    coreGrad.addColorStop(1, 'transparent');
+    ctx.fillStyle = coreGrad;
+    ctx.beginPath();
+    ctx.arc(corePos.sx, corePos.sy, coreRad * 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Front Visor / Sensor Array
+    const visorPos = toScreen(0, -2, -26);
+    ctx.fillStyle = '#0f050b';
+    ctx.strokeStyle = '#f97316';
+    ctx.lineWidth = Math.max(1, 2 * visorPos.scale);
+    ctx.beginPath();
+    ctx.arc(visorPos.sx, visorPos.sy, Math.max(2, 6 * visorPos.scale), 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Dual Headlight Lenses
+    [lightL, lightR].forEach(l => {
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = '#f97316';
+      ctx.shadowBlur = 12 * l.scale;
+      ctx.beginPath();
+      ctx.arc(l.sx, l.sy, Math.max(2, 4.5 * l.scale), 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.restore();
+
+    // 4. Motors & High-Speed Spinning Propellers
+    armsTransformed.forEach(arm => {
+      const tip = arm.tip;
+      const propR = Math.max(12, 36 * tip.scale);
+
+      ctx.save();
+      // Motor Bell
+      ctx.fillStyle = '#220b17';
+      ctx.strokeStyle = arm.isFront ? '#f97316' : '#f43f5e';
+      ctx.lineWidth = Math.max(1, 2 * tip.scale);
+      ctx.beginPath();
+      ctx.arc(tip.sx, tip.sy, Math.max(3, 8 * tip.scale), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Rotor Wash Disc Glow
+      const rotorGlow = ctx.createRadialGradient(tip.sx, tip.sy, propR * 0.2, tip.sx, tip.sy, propR);
+      rotorGlow.addColorStop(0, arm.isFront ? 'rgba(249, 115, 22, 0.18)' : 'rgba(244, 63, 94, 0.18)');
+      rotorGlow.addColorStop(0.8, arm.isFront ? 'rgba(249, 115, 22, 0.08)' : 'rgba(244, 63, 94, 0.08)');
+      rotorGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = rotorGlow;
+      ctx.beginPath();
+      ctx.arc(tip.sx, tip.sy, propR, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Spinning Carbon Propeller Blades (3-blade prop)
+      const spinSpeed = (arm.idx % 2 === 0 ? 1 : -1) * d.propAngle;
+      ctx.strokeStyle = 'rgba(255, 240, 245, 0.75)';
+      ctx.lineWidth = Math.max(1.5, 3 * tip.scale);
+      ctx.shadowColor = arm.isFront ? '#f97316' : '#f43f5e';
+      ctx.shadowBlur = 8 * tip.scale;
+
+      for (let b = 0; b < 3; b++) {
+        const bladeA = spinSpeed + (b * (Math.PI * 2 / 3));
+        const bx = tip.sx + Math.cos(bladeA) * propR;
+        const by = tip.sy + Math.sin(bladeA) * (propR * 0.45);
+        ctx.beginPath();
+        ctx.moveTo(tip.sx, tip.sy);
+        ctx.lineTo(bx, by);
+        ctx.stroke();
+      }
+
+      // Outer Neon Ring on Rotor Tips
+      ctx.strokeStyle = arm.isFront ? 'rgba(249, 115, 22, 0.4)' : 'rgba(244, 63, 94, 0.4)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.ellipse(tip.sx, tip.sy, propR, propR * 0.45, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.restore();
+    });
+  }
+
+  // Render Loop
+  function render(now) {
+    const elapsed = (now - startTime) / 1000;
+    drone.propAngle += 0.45;
+
+    // Flight Path Keyframe Interpolation
+    if (elapsed < 1.4) {
+      // Phase 1: Swoop down from deep background, banking left-to-right
+      const p = elapsed / 1.4;
+      const ease = p * p * (3 - 2 * p);
+      drone.x = -320 + ease * 460;
+      drone.y = -140 + Math.sin(p * Math.PI) * 110 + ease * 70;
+      drone.z = 750 - ease * 340;
+      drone.roll = -0.35 + ease * 0.55;
+      drone.pitch = 0.22 - Math.sin(p * Math.PI) * 0.12;
+      drone.yaw = 0.4 - ease * 0.5;
+      targetLbl.textContent = 'SYS://SCANNING AIRSPACE...';
+    } else if (elapsed < 2.9) {
+      // Phase 2: Lock onto screen and accelerate forward close-up
+      const p = (elapsed - 1.4) / 1.5;
+      const ease = p * p * (3 - 2 * p);
+      drone.x = 140 - ease * 160;
+      drone.y = -70 + ease * 60;
+      drone.z = 410 - ease * 310;
+      drone.roll = 0.2 - ease * 0.28;
+      drone.pitch = 0.18 - ease * 0.12;
+      drone.yaw = -0.1 + ease * 0.12;
+      hudTarget.classList.add('active');
+      targetLbl.textContent = 'TARGET: VISITOR // LOCK: 98%';
+    } else if (elapsed < 3.8) {
+      // Phase 3: CLOSE-UP HOVER IN 3D RIGHT IN FRONT OF SCREEN!
+      const p = (elapsed - 2.9) / 0.9;
+      const hoverOsc = Math.sin((elapsed - 2.9) * 5) * 8;
+      const rollOsc = Math.cos((elapsed - 2.9) * 4) * 0.05;
+      drone.x = -20 + Math.sin(p * Math.PI * 2) * 18;
+      drone.y = -10 + hoverOsc;
+      drone.z = 100 - p * 65; // swooping right to z = 35! Extremely close and dramatic!
+      drone.roll = rollOsc;
+      drone.pitch = 0.06 + Math.sin((elapsed - 2.9) * 4) * 0.04;
+      drone.yaw = Math.sin((elapsed - 2.9) * 2.5) * 0.1;
+      targetLbl.textContent = 'TARGET LOCKED // ACCESS GRANTED';
+    } else if (elapsed < 4.6) {
+      // Phase 4: Thruster boost past camera & transition reveal
+      const p = (elapsed - 3.8) / 0.8;
+      const ease = p * p;
+      drone.y -= ease * 250;
+      drone.z -= ease * 180;
+      drone.pitch = -0.35 * ease;
+      if (elapsed > 4.2) {
+        finishIntro();
+      }
+    } else {
+      finishIntro();
+      return;
+    }
+
+    // Update telemetry
+    const rangeMeters = Math.max(0.5, (drone.z / 18).toFixed(1));
+    const spdKmh = (18 + Math.abs(drone.roll * 24) + Math.abs(drone.pitch * 30)).toFixed(1);
+    telemetryEl.textContent = `RANGE: ${rangeMeters}m • ALT: 1.8m • SPD: ${spdKmh}km/h • STATUS: PATROL`;
+
+    // Clear canvas with space fade
+    ctx.fillStyle = '#080306';
+    ctx.fillRect(0, 0, W, H);
+
+    // Subtle Perspective Cyber Grid
+    ctx.save();
+    ctx.strokeStyle = 'rgba(244, 63, 94, 0.06)';
+    ctx.lineWidth = 1;
+    const gridY = 280;
+    for (let z = 100; z <= 800; z += 90) {
+      const p1 = project(-900, gridY, z);
+      const p2 = project(900, gridY, z);
+      ctx.beginPath();
+      ctx.moveTo(p1.sx, p1.sy);
+      ctx.lineTo(p2.sx, p2.sy);
+      ctx.stroke();
+    }
+    for (let x = -800; x <= 800; x += 160) {
+      const pNear = project(x, gridY, 80);
+      const pFar = project(x * 1.5, gridY, 800);
+      ctx.beginPath();
+      ctx.moveTo(pNear.sx, pNear.sy);
+      ctx.lineTo(pFar.sx, pFar.sy);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // 3D Space Dust
+    for (const pt of particles) {
+      const proj = project(pt.x, pt.y, pt.z);
+      if (proj.scale > 0) {
+        ctx.fillStyle = `rgba(244, 63, 94, ${pt.alpha * Math.min(1, proj.scale * 1.5)})`;
+        ctx.beginPath();
+        ctx.arc(proj.sx, proj.sy, pt.sz * proj.scale, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Draw Drone
+    drawDrone3D(drone);
+
+    // Position HUD Target Reticle over projected drone center
+    const centerProj = project(drone.x, drone.y, drone.z);
+    hudTarget.style.left = `${centerProj.sx}px`;
+    hudTarget.style.top = `${centerProj.sy}px`;
+    const boxSize = Math.max(80, Math.min(260, 160 * centerProj.scale));
+    hudTarget.style.width = `${boxSize}px`;
+    hudTarget.style.height = `${boxSize}px`;
+
+    if (!isIntroDone) {
+      animFrameId = requestAnimationFrame(render);
+    }
+  }
+
+  // Start Animation
+  requestAnimationFrame(render);
+})();
+
+</script>
 <script>
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
