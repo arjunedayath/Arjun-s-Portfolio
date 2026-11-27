@@ -953,12 +953,14 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 }
 .drone-actor {
   position: absolute;
-  width: min(640px, 86vw);
-  max-width: 680px;
+  width: min(1180px, 92vw);
+  max-width: 1240px;
   /* Transform origin centered exactly at the camera lens: 44.2% X, 60.5% Y */
   transform-origin: 44.2% 60.5%;
   transform-style: preserve-3d;
   will-change: transform, opacity;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -969,7 +971,12 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
   display: block;
   user-select: none;
   -webkit-user-drag: none;
-  filter: drop-shadow(0 0 30px rgba(244, 63, 94, 0.5)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.9));
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  filter: drop-shadow(0 0 35px rgba(244, 63, 94, 0.45)) drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95));
 }
 .headlight-flare {
   position: absolute;
@@ -1430,12 +1437,13 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
 
   // Waypoints: drone flies from deep space, centers its camera lens directly in front,
   // and then the camera lens surges forward straight into the screen!
+  // Waypoints calibrated for 1180px container and 2048x1152 Ultra-HD asset for 100% native clarity:
   const waypoints = [
-    { x: 360,  y: -130, z: -680, scale: 0.16 }, // 0: deep entry
-    { x: -200, y: -40,  z: -320, scale: 0.42 }, // 1: swoop left
-    { x: 35,   y: 10,   z: -80,  scale: 0.78 }, // 2: center approach
-    { x: 0,    y: 0,    z: 60,   scale: 1.15 }, // 3: camera centered in front of screen
-    { x: 0,    y: 0,    z: 950,  scale: 6.2  }  // 4: CAMERA DIRECTLY ZOOMS INTO SCREEN!
+    { x: 380,  y: -140, z: -680, scale: 0.09 }, // 0: deep entry
+    { x: -220, y: -40,  z: -340, scale: 0.22 }, // 1: swoop left
+    { x: 40,   y: 10,   z: -80,  scale: 0.44 }, // 2: center approach
+    { x: 0,    y: 0,    z: 40,   scale: 0.82 }, // 3: camera centered in close-up at 100% native clarity!
+    { x: 0,    y: 0,    z: 850,  scale: 2.2  }  // 4: CAMERA DIRECTLY ZOOMS INTO SCREEN!
   ];
 
   let prevX = waypoints[0].x;
@@ -1581,7 +1589,7 @@ dialog input:focus,dialog select:focus,dialog textarea:focus{
       hudY += (targetScreenY - hudY) * 0.18;
       hudTarget.style.left = `${hudX}px`;
       hudTarget.style.top = `${hudY}px`;
-      const boxSize = Math.max(110, Math.min(260, 160 * Math.min(1.4, scaleVal)));
+      const boxSize = Math.max(110, Math.min(260, 180 * Math.min(1.2, scaleVal)));
       hudTarget.style.width = `${boxSize}px`;
       hudTarget.style.height = `${boxSize}px`;
     }
